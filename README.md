@@ -1,1 +1,2 @@
 # lamp-trainig
+# lamp-training
