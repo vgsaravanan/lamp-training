@@ -1,0 +1,190 @@
+{% extends 'UserBundle:Default:header.html.twig' %}
+{% block body %}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"> </script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/additional-methods.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js">
+</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<div class="display_form">
+    {% for message in app.flashes('success') %}
+        <div class="flash-message">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+
+    {{ form_start(form, {'attr': {'id': 'form_new_user'} },{'method': 'POST'}) }}
+        <table class="tablesytle" align= "center">
+        <tr>
+            <td>
+                <b>{{ form_label(form.firstName,'First Name') }} </b>
+            </td>
+            <td>
+                {{ form_widget(form.firstName) }}
+                    <span class = "error_message">
+                    {{ form_errors(form.firstName) }}                       
+                    </span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>{{ form_label(form.lastName, 'Last Name ') }}</b>
+            </td>
+            <td>
+                {{ form_widget(form.lastName) }}
+                <span class = "error_message">
+                    {{ form_errors(form.lastName) }} 
+                </span>
+            </td>
+        </tr>
+
+        <tr>
+            <td> 
+                <b>{{ form_label(form.dateOfBirth, 'Date of Birth') }}</b>
+            </td>
+            <td> 
+                {{ form_widget(form.dateOfBirth) }}
+                <span class = "error_message"> 
+                    {{ form_errors(form.dateOfBirth) }} 
+                </span> 
+            </td>
+        </tr>
+        {% if ( "{{ path('new_user') }}")  %}
+        <tr>
+            <td> 
+                <b>{{ form_label(form.image,'Profile Pic') }} </b>
+            </td>
+            <td> 
+                {{ form_widget(form.image) }} 
+                {{ form_errors(form.image) }} 
+            </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td> 
+                <b>{{ form_label(form.gender, 'Gender') }}</b>
+            </td>
+            <td> 
+                {{ form_widget(form.gender) }} 
+            </td>
+            <td>
+                <span class = "error_message"> 
+                    {{ form_errors(form.gender) }} 
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td> 
+                <b>{{ form_label(form.emailId,'Email Ids') }} </b>
+            </td>
+            <td>
+                <ul id="email-fields-list" data-prototype="{{ form_widget(form.emailId.vars.prototype)|e }}" >
+                    {% for emailField in form.emailId %}
+                        <li class = "list_type">
+                            {{ form_widget(emailField) }}
+                        </li>
+                    {% endfor %}
+                </ul> 
+            </td>
+            <td>  
+                <input type = "button" name = "email-field" class = "add" id = "add-email-field" value = "Add" onclick = "addField('#email-fields-list')" >
+            </td>   
+        </tr>
+
+        <tr>
+            <td> 
+                <b>{{ form_label(form.contactNumber,'Mobile Number') }} </b>
+            </td>
+            <td> 
+                <ul id="mobile-fields-list" data-prototype="{{ form_widget(form.contactNumber.vars.prototype)|e }}">
+                {% for mobileField in form.contactNumber %}
+                    <li class = "list_type">
+                        {{ form_widget(mobileField) }}
+                        <span class = "error_message"> 
+                            {{ form_errors(mobileField) }} 
+                        </span>
+                    </li>
+                {% endfor %}
+                </ul> 
+            </td>
+            <td> 
+                <input type = "button" name = "mobile-field" id = "add-mobileno-field" value = "Add" onclick = "addField('#mobile-fields-list')">
+            </td>   
+        </tr>
+        <tr>
+
+        </tr>
+        
+        <tr>
+            <td> 
+                <b>{{ form_label(form.interest,'Area of Interest') }} </b>
+            </td>
+            <td> 
+                <ul id="interest-fields-list" data-prototype="{{ form_widget(form.interest.vars.prototype)|e }}">
+                {% for interestField in form.interest %}
+                    <li class = "list_type">
+                        {{ form_widget(interestField) }}
+                        <span class = "error_message"> 
+                            {{ form_errors(interestField) }} 
+                        </span>
+                    </li>
+                {% endfor %}
+                </ul> 
+            </td>
+            <td> 
+                <input type = "button" name = "interest-field" id = "add-interest-field" value = "Add" onclick = "addField('#interest-fields-list')" >
+            </td>   
+        </tr>
+
+        <tr>
+            <td> 
+                <b>{{ form_label(form.graduationType,'Graduation') }} </b>
+            </td>
+            <td> 
+                <ul id="graduation-fields-list" data-prototype="{{ form_widget(form.graduationType.vars.prototype)|e }}">
+                {% for graduationField in form.graduationType %}
+                    <li class = "list_type">
+                        {{ form_widget(graduationField) }}
+                        <span class = "error_message"> 
+                            {{ form_errors(graduationField) }} 
+                        </span>
+                    </li>
+                {% endfor %}
+                </ul> 
+            </td>
+            <td align='center'> 
+                <input type = "button" name = "graduation-field" id = "add-graduation-field" value = "Add" onclick = "addField('#graduation-fields-list' )" >
+            </td>   
+        </tr>
+
+        <tr>
+            <td> 
+                <b>{{ form_label(form.bloodGroup, 'Blood Group') }}</b>
+            </td>
+            <td> 
+                {{ form_widget(form.bloodGroup) }} 
+                <span class = "error_message"> 
+                    {{ form_errors(form.bloodGroup) }}
+                </span> 
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan = '2' align='center'>
+                {{ form_widget(form.save, {'label': 'Save'}) }}
+            </td>
+        </tr>
+        </table>
+        {{ form_row(form._token) }}
+    {{ form_end(form, {'render_rest':false}) }}
+
+    {% block javascripts %}
+        {% javascripts '@UserBundle/Resources/public/js/addField.js' %}
+            <script src="{{ asset_url }}"> </script>
+        {% endjavascripts %}
+    {% endblock %}
+</div>
+
+{% endblock %}

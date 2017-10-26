@@ -1,0 +1,93 @@
+{% extends 'UserBundle:Default:header.html.twig' %}
+{% block body %}
+
+<div class="display_form">
+<table class="tablesytle" align= "center">
+<tr>
+    <th colspan="2" align = "center">
+    <img src="{{ asset('uploads/brochures/' ~ results.image) }}" width = '70px' style = "float:left; border-radius: 50%;"  />
+    <span>
+        {{ results.getFirstName }}
+        {{ results.getLastName }}
+    </span>
+    </th>
+</tr>
+
+<tr>
+    <th>
+        BLOOD GROUP
+    </th>
+    <td>
+        {{ results.getBloodGroup }}
+    </td>
+</tr>
+<tr>
+    <th>
+        GENDER
+    </th>
+    <td>
+        {{ results.getGender }}
+    </td>
+</tr>
+
+<tr>
+    <th>
+        EMAIL
+    </th>
+    <td>
+        {% for items in results.getEmailId %}
+            <ul>
+                <li class="list_type"> {{ items.getEmailId }} </li>
+            </ul>
+        {% endfor %}
+    </td>
+</tr>
+
+<tr>
+    <th>
+        CONTACT NUMBER
+    </th>
+    <td>
+        {% for items in results.getContactNumber %}
+            <ul>
+                <li class="list_type"> {{ items.getContactNumber }} </li>
+            </ul>
+        {% endfor %}
+    </td>
+</tr>
+
+<tr>
+    <th>
+            AREA OF INTEREST
+        </th>
+    <td>
+            {% for items in results.getInterest %}
+                <ul>
+                    <li class="list_type"> {{ items.getInterest }} </li>
+                </ul>
+            {% endfor %}
+        </td>
+    </tr>
+
+<tr>
+    <th>
+        GRADUATION DETAILS
+    </th>
+    <td>
+        {% for items in results.getGraduationType %}
+            <ul>
+                <li class="list_type"> {{ items.getGraduation }} </li>
+            </ul>
+        {% endfor %}
+    </td>
+</tr>
+
+<tr>
+    <td colspan = '2' align='center'>
+        <input type = "button" class = "edit_user" id = "edit_list" value = "Edit" onclick = "location.href = '{{ path('edit_user', { 'id': results.getId }) }}'">
+    </td>
+</tr>
+
+</table>
+</div>
+{% endblock %}

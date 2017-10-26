@@ -1,0 +1,22 @@
+{% extends 'UserBundle:Default:header.html.twig' %}
+{% block body %}
+<div class="display_form">
+<table class="tablesytle" align= "center">
+    <tr>
+        <th>Interests</th>
+        <th>Add New</th>
+        <th>Action</th>                
+    <tr>
+        <td>
+    {% for interest in interests %}
+        {{ interest.interest }}<br/>
+    {% endfor %}
+
+        {{ form_start(form) }}
+            <td> {{ form_row(form.interest) }} </td>
+            <td>{{ form_row(form.save) }}</td>
+        {{ form_end(form) }}
+    </tr>
+</table>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+new_user:
+  path: /new
+  defaults: { _controller: UserBundle:User:new}
+
+interest:
+  path: /admin/interest
+  defaults: { _controller: UserBundle:User:addInterest}
+
+graduation:
+  path: /admin/graduation
+  defaults: { _controller: UserBundle:User:addGraduation}
+
+list_user:
+  path: /
+  defaults: { _controller: UserBundle:User:list}
+  
+display_user:
+  path: /display/{page}
+  defaults: { _controller: UserBundle:User:display, page: 1}
+  requirements:
+    page: '\d+'
+
+edit_user:
+  path: /edit/{id}
+  defaults: { _controller: UserBundle:User:edit}
+  requirements:
+    id: '\d+'
+
+view_user:
+  path: /{id}
+  defaults: { _controller: UserBundle:User:view}
+  requirements:
+    id: '\d+'
+
+admin:
+  path: /admin
+  defaults: { _controller: UserBundle:Admin:admin}
+
+login:
+  path: /login
+  defaults: { _controller:  UserBundle:Security:login }
+
+login_check:
+  path: /login_check
+
+logout:
+  path: /logout
+

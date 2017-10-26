@@ -1,0 +1,22 @@
+{% extends 'UserBundle:Default:header.html.twig' %}
+{% block body %}
+<div class="display_form">
+<table class="tablesytle" align= "center">
+    <tr>
+        <th>Education Types</th>
+        <th>Add New</th>
+        <th>Action</th>                
+    <tr>
+        <td>
+    {% for graduation in graduationType %}
+        {{ graduation.type }}<br/>
+    {% endfor %}
+
+        {{ form_start(form) }}
+            <td> {{ form_row(form.type) }} </td>
+            <td>{{ form_row(form.save) }}</td>
+        {{ form_end(form) }}
+    </tr>
+</table>
+</div>
+{% endblock %}

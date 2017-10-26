@@ -1,0 +1,164 @@
+<div class="container">
+    <h1>NEW USER</h1>
+    <form>
+	<div class="form-group">
+	<label for="firstName">First Name</label>	
+	<input 
+	ngModel 
+	name="firstName" 
+	#firstName="ngModel" 
+	(change)="log(firstName)" 
+	class="form-control" 
+	id="firstName" 
+	pattern="^[a-z]+$" 
+	minlength="3" 
+	maxlength="10" 
+	required>
+	<div 
+	class="alert alert-danger" 
+	*ngIf="firstName.touched && !firstName.valid">
+		<div *ngIf="firstName.errors.required">
+			First Name is required.
+		</div>
+		<div *ngIf="firstName.errors.minlength"> 
+			First Name should be minimum {{ firstName.errors.minlength.requiredLength }} characters.
+		</div>
+		<div *ngIf="firstName.errors.pattern"> 
+			First Name doesn't match the pattern
+		</div> 
+	</div>
+	</div>
+
+	<div class="form-group">
+	<label for="lastName">Last Name</label>	
+	<input 
+	    ngModel 
+	    name="lastName" 
+	    #lastName="ngModel" 
+	    (change)="log(lastName)" 
+	    class="form-control" 
+	    id="lastName" 
+	    pattern="^[a-z]+$" 
+	    minlength="3" 
+	    maxlength="10" 
+		required>
+
+	<div 
+	class="alert alert-danger" 
+	*ngIf="lastName.touched && !lastName.valid">
+		<div *ngIf="lastName.errors.required">
+			Last Name is required.
+		</div>
+		<div *ngIf="lastName.errors.minlength"> 
+			Last Name should be minimum {{ lastName.errors.minlength.requiredLength }} characters.
+		</div>
+		<div *ngIf="lastName.errors.pattern"> 
+			Last Name doesn't match the pattern
+		</div> 
+	</div>
+	</div>
+
+	<div class="form-group">
+        <label for="emailid">Email-ID</label>	
+        <input 
+	        ngModel 
+	        name="emailid" 
+	        #emailid="ngModel" 
+	        (change)="log(emailid)" 
+	        class="form-control" 
+	        id="emailid" 
+	        pattern="^[a-z A-Z 0-9 @]*$" 
+	        minlength="3" 
+	        maxlength="10" 
+	    	required>
+	    <button (click)="addEmailId(id)">+</button>
+    </div>
+
+    <div class="form-group">
+		<label for="dateofbirth">Date of Birth</label>
+		<mat-form-field>
+		  <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+		  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+		  <mat-datepicker #picker></mat-datepicker>
+		</mat-form-field>
+	</div>
+
+
+	<div class="form-group">
+		<label for="gender">Gender</label>
+		<mat-radio-group >
+			<mat-radio-button *ngFor = "let type of gender" [value]="type">{{type}}</mat-radio-button>
+		</mat-radio-group>
+	</div>
+
+	<div class="form-group">
+		<label for="bloodgroup">Blood Group</label>
+		<select 
+			ngModel 
+	        name="bloodgroup" 
+	        #bloodgroup="ngModel" 
+	        class="form-control" 
+	        id="bloodgroup" 
+	        required>
+			<option *ngFor="let group of bloodGroup" [value]="group">
+			{{group}}</option>
+		</select>
+
+		<div 
+        class="alert alert-danger" 
+        *ngIf="bloodgroup.touched && !bloodgroup.valid">
+        	<div *ngIf="bloodgroup.errors.required">
+        		Field is required.
+        	</div>
+        </div>
+	</div>
+
+	<div class="form-group">
+		<label for="interest">Area of Interest</label>
+		<select 
+			ngModel 
+	        name="interest" 
+	        #interest="ngModel" 
+	        class="form-control" 
+	        id="interest" 
+	        required>
+			<option *ngFor="let group of interestType" [value]="group">
+			{{group}}</option>
+		</select>
+
+		<div 
+        class="alert alert-danger" 
+        *ngIf="interest.touched && !interest.valid">
+        	<div *ngIf="interest.errors.required">
+        		Field is required.
+        	</div>
+        </div>
+	</div>
+		
+
+	<div class="form-group">
+		<label for="graduation">Graduation</label>
+		<select 
+			ngModel 
+	        name="graduation" 
+	        #graduation="ngModel" 
+	        class="form-control" 
+	        id="graduation" 
+	        required>
+			<option *ngFor="let group of graduationType" [value]="group">
+			{{group}}</option>
+		</select>
+
+		<div 
+        class="alert alert-danger" 
+        *ngIf="graduation.touched && !graduation.valid">
+        	<div *ngIf="graduation.errors.required">
+        		Field is required.
+        	</div>
+        </div>
+	</div>
+ 
+      <button type="submit" class="btn btn-success" (click) = "onSubmit()">Submit</button>
+ 
+    </form>
+</div>

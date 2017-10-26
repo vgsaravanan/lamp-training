@@ -1,0 +1,49 @@
+{% extends 'UserBundle:Default:header.html.twig' %}
+{% block body %}
+<div class="display_form">
+
+{% for message in app.flashes('success') %}
+        <div class="flash-message">
+            {{ message }}
+        </div>
+    {% endfor %}
+    
+{{ form_start(form, { 'attr' : { 'novalidate' : 'novalidate' }}) }}
+<table class="tablesytle" align= "center">
+    <tr>
+        <th>Type</th>
+        <th>List</th>
+        <th>Action</th>
+    </tr>
+    <tr>
+        <td>
+            {{ form_label(form.interest) }}
+        </td>
+        <td>
+             {% for interestfield in form.interest %}
+                    {{ form_widget(interestfield.interest) }}
+            {% endfor %}
+        </td>
+        <td>
+            <input type="button" value="Add"
+                   onclick="location.href='{{ path('interest') }}'">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{ form_label(form.graduationType) }}
+        </td>
+        <td>
+             {% for list in form.graduationType %}
+                    {{ form_widget(list.graduation) }}
+            {% endfor %}
+        </td>
+        <td>
+            <input type="button" value="Add"
+                   onclick="location.href='{{ path('graduation') }}'">                   
+        </td>
+    </tr>
+</table>
+{{ form_end(form, {'render_rest': false}) }}
+</div>
+{% endblock %}
