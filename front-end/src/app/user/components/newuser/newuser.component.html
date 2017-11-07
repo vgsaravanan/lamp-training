@@ -1,31 +1,32 @@
-<ul class="users">
-	<li *ngFor="let type of genderType">
-	<span class="badge"> {{ type }} </span> 
+<!-- <ul class="users">
+	<li *ngFor="let i of genderType.gender; let i=index">
+	<span class="badge" *ngFor="let j of genderType.gender[i].Type;let j=index">{{ genderType.gender[i].Type[j] }} </span> 
 	</li>
-</ul>
+</ul> -->
 
-<ul class="users">
+<!-- <ul class="users">
 	<li *ngFor="let user of users">
 	<span class="badge">{{user.firstName}}</span> {{user.lastName}}
 	</li>
-</ul>
+</ul> -->
+
+<!-- *ngFor="let user of users" -->
 
 <div class="container">
     <h1>NEW USER</h1>
-    <form class="example-form">
-    <table class="example-full-width" cellspacing="0" align="center" *ngFor="let user of users"> 
+    <form class="example-form" #userForm="ngForm">
+    <table class="example-full-width" cellspacing="0" align="center" > 
     <tr>
     	<td>
     		<mat-form-field class="example-full-width">
     			<input matInput 
-    			placeholder="First Name"
-    			[(ngModel)]="user.firstName" 
-				name="firstName"   
-				id="firstName" 
+				placeholder="First Name"
+				name="firstname"
+    			[(ngModel)]="user.firstName"    
+				#firstname = "ngModel"
 				pattern="^[a-z]+$" 
 				minlength="3" 
 				maxlength="10" 
-
 				required>
 				
     		</mat-form-field>
@@ -34,15 +35,14 @@
     		<mat-form-field class="example-full-width">
     			<input matInput 
     			placeholder="Last Name"
-    			[(ngModel)]="lastName" 
+    			[(ngModel)]="user.lastName" 
 			    name="lastName" 
 			    id="lastName" 
 			    pattern="^[a-z]+$" 
 			    minlength="3" 
 			    maxlength="10" 
-			    value={{user.lastName}}
+			    value={{lastName}}
 				required>
-				
     		</mat-form-field>
     	</td>
     </tr>
@@ -50,7 +50,14 @@
     <tr>
     	<td>
     		<mat-form-field class="example-full-width">
-			  <input matInput [matDatepicker]="picker" placeholder="Date of Birth">
+			  <input 
+			  matInput 
+			  [matDatepicker]="picker" 
+			  placeholder="Date of Birth"
+			  [(ngModel)]="user.dateOfBirth" 
+			  name="dateofbirth"
+			  #dateofbirth="ngModel"
+			  >
 			  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 			  <mat-datepicker #picker></mat-datepicker>
 			</mat-form-field>
@@ -66,20 +73,60 @@
  -->
  	<tr>
  		<td>
- 			<mat-radio-group >
-				<mat-radio-button *ngFor = "let type of genderType" [(ngModel)]="type.gender">{{type.gender}}</mat-radio-button>
+        <!-- [(ngModel)]="type[i]" name="gender" #g="ngModel" -->
+			 <mat-radio-group 
+			 [(ngModel)]="user.genderType" 
+			 name="gender"
+			 #gender = "ngModel"> 
+				<mat-radio-button 
+				*ngFor="let type of genderType; let i=index "  [value]='type'> {{type}} </mat-radio-button>
 			</mat-radio-group>
  		</td>
- 	</tr>
- 	<tr>
+	 </tr>
+	 <!-- Trial -->
+
+	 <tr>
+		<td>
+		<mat-form-field 
+		class="example-full-width"
+		*ngFor = "let email of user.emailId">
+			<input matInput 
+			   placeholder="Email-ID"
+			   [(ngModel)] = "user.emailId" 
+			   name="emailId" 
+			   #emailid  
+			   [value] = "email"
+			   id="emailid" 
+			   pattern="^[a-z 0-9 @]+$" 
+			   required>
+			   <!-- <button mat-mini-fab color="primary" class="button-row" (click)="removeEmailId(email)">x
+			</button> -->
+		   <mat-error *ngIf="emailid.touched && !emailid.valid">
+			   <mat-error *ngIf="emailid.errors.required">
+				   emailid is required.
+			   </mat-error>
+			   <mat-error *ngIf="emailid.errors.pattern"> 
+				   Invalid Email.
+			   </mat-error>
+		   </mat-error>
+		   </mat-form-field>
+		   <button mat-mini-fab color="primary" class="button-row" (click)="addEmailId(emailid.value)">
+			   +
+		   </button>
+		</td>
+	</tr>
+
+
+	 <!-- Error -->
+ 	<!-- <tr>
  		<td>
  		<mat-form-field class="example-full-width">
  			<input 
  				matInput 
     			placeholder="Email-ID"
-    			ngModel 
-			    name="emailid" 
-			    #emailid="ngModel"  
+    			[(ngModel)] = "user.emailId" 
+			    name="emailId" 
+			    #emailid  
 			    id="emailid" 
 			    pattern="^[a-z 0-9 @]+$" 
 				required>
@@ -96,7 +143,7 @@
 			<button mat-mini-fab color="primary" class="button-row" (click)="addEmailId(emailid.value)">
 			    +
 			</button>
-			<!-- <button class="btn btn-success" (click)="addEmailId(emailid.value)">+</button> -->
+			<button class="btn btn-success" (click)="addEmailId(emailid.value)">+</button>
 	        <ul>
 	        	<li *ngFor = "let email of emailId">
 	        		<mat-form-field class="example-full-width">
@@ -112,7 +159,7 @@
 	        	</li>
 	        </ul>
  		</td>
- 	</tr>
+ 	</tr> -->
 
  	<tr>
  		<td>
@@ -120,7 +167,7 @@
  			<input 
  				matInput 
     			placeholder="contact Number"
-    			ngModel 
+    			[(ngModel)] = "user.contactNumber" 
 			    name="contactnumber" 
 			    #contactnumber="ngModel"  
 			    id="contactnumber" 
@@ -293,13 +340,15 @@
 	<tr>
 		<td>
 			<mat-form-field class="example-full-width">
-			    <mat-select placeholder="Blood Group" ngModel 
+				<mat-select 
+				placeholder="Blood Group" 
+				[(ngModel)]="user.bloodGroup" 
 		        name="bloodgroup" 
 		        #bloodgroup="ngModel" 
 		        id="bloodgroup"
-		        required>
-			      <mat-option *ngFor="let group of bloodGroup" [value]="group">
-			        {{group}}
+		        required> 
+			      <mat-option *ngFor="let type of bloodGroupType; let i=index "  [value]='type'>
+			        {{type}}
 			      </mat-option>
 			    </mat-select>
 
@@ -338,14 +387,13 @@
 		<td>
 			<mat-form-field class="example-full-width">
 			    <mat-select placeholder="Area of Interest" 
-			    ngModel 
+			   [(ngModel)]="user.interestType" 
 		        name="interest" 
 		        #interest="ngModel" 
-		       
 		        id="interest" 
 		        required>
-			      <mat-option *ngFor="let group of interestType" [value]="group">
-			        {{group}}
+			      <mat-option *ngFor="let type of interestType; let i=index " [value]="type">
+			        {{type}}
 			      </mat-option>
 			    </mat-select>
 
@@ -397,14 +445,14 @@
 		<td>
 			<mat-form-field class="example-full-width">
 			    <mat-select placeholder="Graduation" 
-			    ngModel 
+			    [(ngModel)]="user.graduationType" 
 		        name="graduation" 
 		        #graduation="ngModel" 
 		        
 		        id="graduation" 
 		        required>
-			      <mat-option *ngFor="let group of graduationType" [value]="group">
-			        {{group}}
+			      <mat-option *ngFor="let type of graduationType; let i=index " [value]="type">
+			        {{type}}
 			      </mat-option>
 			    </mat-select>
 
@@ -430,7 +478,7 @@
 	        required>
 		      <mat-option *ngFor="let group of graduationType" [value]="group">
 		        {{group}}
-		      </mat-option>
+		      </mat-option>model
 		    </mat-select>
 		</mat-form-field> -->
 		<!-- <select 
@@ -457,7 +505,8 @@
 			<button type="submit" mat-raised-button color="primary" class="button-row" (click) = "onSubmit()">Submit</button>		
 		</td>
 	</tr> 
- 	</table>
+	 </table>
+	 <pre> {{ userForm.value | json }}</pre>
     </form>
 </div>
 

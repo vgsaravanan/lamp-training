@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { NewUserService } from './new-user.service';
+import { User } from './user';
+import { Gender } from './gender';
+import 'rxjs/add/operator/map';
+
 
 @Component({
   selector: 'new-user',
@@ -7,45 +12,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewUserComponent implements OnInit {
 
-firstName: string;
-lastName: string;
-emailId: string[];
-contactNumber: string[];
-gender: string[];
-dateOfBirth: string;
-bloodGroup: string[];
-interestType: string[];
-graduationType: string[];
-submitted:boolean;
+users: User[];
+genderType: any;
 
-  constructor() {
-  	this.gender = ['Male', 'Female'];
-  	this.interestType = ['Cricket', 'FootBall', 'Racing', 'Listen to Music'];
-  	this.graduationType = ['SSLC', 'HSC', 'UG', 'PG', 'MASTERS'];
-  	this.bloodGroup = ["A+","B+","O+","AB+","AB-","O-","B-","A-"];
+submitted: boolean;
+
+
+  constructor( private service: NewUserService) {
   }
 
-  	log(x) {
-  		console.log(x);
-  	}
+    getUser(): void {
+      this.service.getUser().then(users => this.users = users);
+  }
 
-  	sumbitted = false;
+    getGender(): void {
 
-  	addEmailId(x) {
-  		let element = document.createElement('input');
-  		console.log(x);
-  	}
+      this.service.getGender().subscribe(
+      gender => {
+      this.genderType = gender;
+      console.log(this.genderType)});
+    }
+    
+   
 
-  	onSubmit() {
-  		this.submitted = true;
-  		console.log(this.submitted);
-  	}
-
-  	get diagnostic() {
-  		return JSON.stringify(this);
-  	}
 
   ngOnInit() {
+    this.getUser();
+    this.getGender();
   }
 
 }
