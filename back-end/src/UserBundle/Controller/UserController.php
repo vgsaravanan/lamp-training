@@ -2,6 +2,8 @@
 
 namespace UserBundle\Controller;
 
+use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\FOSRestController;
 use UserBundle\Entity\UserDetail;
 use UserBundle\Entity\UserEmail;
 use UserBundle\Entity\UserContact;
@@ -17,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 /*use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -32,7 +35,7 @@ use Symfony\Component\HttpFoundation\File\File;
 *
 */
 
-class UserController extends Controller
+class UserController extends FOSRestController
 {
     private $limit;
     private $offset;
@@ -55,11 +58,18 @@ class UserController extends Controller
     
     public function newAction(Request $request)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw $this->createAccessDeniedException();
-        }
-        $session = $request->getSession();
+
+        $data = $request->getContent();
+        // $view = $this->view($data, Response::HTTP_INTERNAL_SERVER_ERROR); 
+        // dump($view);
+        // return $view;
+        // die();       
+        // return new JsonResponse('hello');
+        // $user = $this->get('security.token_storage')->getToken()->getUser();
+        // if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+        //     throw $this->createAccessDeniedException();
+        // }
+        // $session = $request->getSession();
         $newUser = new UserDetail();
         $newUser->addEmailId(new UserEmail());
         $newUser->addContactNumber(new UserContact());
@@ -67,21 +77,29 @@ class UserController extends Controller
         $newUser->addGraduationType(new UserGraduation());
 
         $form = $this->createForm(UserType::class,$newUser);
-        
+        $view = $this->view($newUser, Response::HTTP_INTERNAL_SERVER_ERROR);
+        return $view;
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        // if ($form->isSubmitted()) {
+            // dump('submit'); 
+            // die();
             $newUser = $form->getData();     
-            $file = $newUser->getImage();
+            // $file = $newUser->getImage();
+            // dump($newUser);
+            // dump($newUser);
+            // die();
+            $view = $this->view($newUser, Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $view;
 
             
-            $fileName = md5(uniqid(mt_rand(), true));
-            $fileName = $fileName.".".$file->guessExtension();
-            $file->move(
-                $this->getParameter('brochures_directory'), 
-                $fileName
-                );
-            $newUser->setImage($fileName);  
+            // $fileName = md5(uniqid(mt_rand(), true));
+            // $fileName = $fileName.".".$file->guessExtension();
+            // $file->move(
+            //     $this->getParameter('brochures_directory'), 
+            //     $fileName
+            //     );
+            // $newUser->setImage($fileName);  
 
             /*$newUser->setImage(
                 new File($this->getParameter("brochures_directory").$newUser->getImage())
@@ -94,10 +112,13 @@ class UserController extends Controller
                 'success',
                 'New User Added Successfully!'
                 );
-            return $this->redirectToRoute('new_user');
-        }
-        return $this->render('UserBundle:Default:new.html.twig',array('form' => $form->createView(),
-            ));
+        //     return $this->redirectToRoute('new_user');
+        // }
+            $view = $this->view($newUser, Response::HTTP_INTERNAL_SERVER_ERROR);
+            // return new JsonResponse("$newUser");
+        // return $this->render('UserBundle:Default:new.html.twig',array('form' => $form->createView(),
+        //     ));
+        return $view;
     }
 
     /**
@@ -109,9 +130,9 @@ class UserController extends Controller
     */
     public function listAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw $this->createAccessDeniedException();
-        }
+        // if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+        //     throw $this->createAccessDeniedException();
+        // }
         $entityManager = $this->getDoctrine()->getManager();
         $repository = $entityManager->getRepository("UserBundle:UserDetail");
         $user = $repository->findAll();
@@ -139,7 +160,7 @@ class UserController extends Controller
     public function displayAction(Request $request)
     {
         $page = $request->get('page');
-        dump($page);
+        // dump($page);
         $entityManager = $this->getDoctrine()->getManager();
         $repository = $entityManager->getRepository("UserBundle:UserDetail");
         $this->limit = $this->container->getParameter('limit');
@@ -158,9 +179,9 @@ class UserController extends Controller
     */
     public function viewAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw $this->createAccessDeniedException();
-        }
+        // if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+        //     throw $this->createAccessDeniedException();
+        // }
         $id = $request->get('id');
         $repository = $this->getDoctrine()->getRepository(UserDetail::class);
         $user = $repository->find($id);

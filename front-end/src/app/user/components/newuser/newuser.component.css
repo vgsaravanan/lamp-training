@@ -1,0 +1,8 @@
+.button-row {
+ font-weight: bold;
+ font-size: 21px;
+ border: 0;
+ cursor: pointer;
+ display: inline-block;
+ line-height: 100%;   
+}

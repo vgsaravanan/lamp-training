@@ -5,13 +5,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NewuserComponent } from './components/newuser/newuser.component';
 import { UserService } from './service/user.service';
 import { HttpModule } from '@angular/http';
+
 import { MatDatepickerModule,
   MatNativeDateModule,
   MatRadioModule,
   MatSelectModule,
   MatFormFieldModule,
   MatInputModule,
-  MatButtonModule
+  MatButtonModule,
+  MatChipsModule,
+  MatTooltipModule
    } from '@angular/material';
 
 @NgModule({
@@ -27,7 +30,8 @@ import { MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    HttpModule,
+    MatChipsModule,
+    MatTooltipModule,
   ],
   declarations: [NewuserComponent],
   providers:[UserService]

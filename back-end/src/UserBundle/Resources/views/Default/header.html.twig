@@ -17,14 +17,6 @@
                     {% endimage %}
                     <h1 class="headerlink" id="head">
                         <a href="{{ path('list_user') }}">USER MANAGEMENT SYSTEM</a>
-                        <div class="userDiv">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            Welcome {{ app.user.username }} 
-                        {% endif %}
-                        <?php
-                            echo "Welcome!"; 
-                        ?>
-                        </div>
                     </h1>
             </div>
 
@@ -33,17 +25,13 @@
                         <li><a href="{{ path('list_user') }}">Home</a></li>
                         <li><a href="{{ path('new_user') }}">New User</a></li>
                         <li><a href="{{ path('list_user') }}">List User</a></li>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <li><a href="{{ path('admin') }}">Admin</a></li>
-                        {% endif %}
-                        <li style="float: right;"><a href="{{ path('logout') }}">Log out</a></li>   
+
+                        <li style="float: right;"><a href="">Log out</a></li>   
                      </ul>
             </div>
         </div>
         <div id="block_content">
-            {% if app.user.username %}
-                 {% block body %}{% endblock %} 
-            {% endif %}
+           
         </div>
     </body>
 </html>

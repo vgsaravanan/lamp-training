@@ -1,10 +1,10 @@
 export class User {
 	firstName: string ='';
 	lastName: string = '';
-	emailId: string[] = [];
+	emailId: string[]=[];
 	contactNumber: string[] = [];
-	genderType: string = '';
-	dateOfBirth: string = '';
+	gender: string = '';
+	dateOfBirth: Date = new Date('YYYY-MM-DD');
 	bloodGroup: string = '';
 	interestType: string = '';
 	graduationType: string = '';
@@ -13,6 +13,6 @@ export class User {
 	constructor() {
 		// this.firstName = '';
 		// this.lastName = '';
-		this.emailId = [];
+		// this.emailId = [];
 	}
 }

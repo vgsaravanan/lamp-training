@@ -1,6 +1,7 @@
 new_user:
   path: /new
   defaults: { _controller: UserBundle:User:new}
+  # methods: [POST]
 
 interest:
   path: /admin/interest
@@ -35,14 +36,3 @@ view_user:
 admin:
   path: /admin
   defaults: { _controller: UserBundle:Admin:admin}
-
-login:
-  path: /login
-  defaults: { _controller:  UserBundle:Security:login }
-
-login_check:
-  path: /login_check
-
-logout:
-  path: /logout
-

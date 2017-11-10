@@ -7,6 +7,7 @@ MatRadioModule,
 MatSelectModule,
 MatFormFieldModule,
 MatInputModule,
+MatChipsModule,
 MatButtonModule
  } from '@angular/material';
 import { NgModule } from '@angular/core';
@@ -40,6 +41,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpModule,
     HttpClientModule,
     UserModule,
+    MatChipsModule,
     RouterModule.forRoot(
       [
         {

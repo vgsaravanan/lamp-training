@@ -126,4 +126,9 @@ class UserType extends AbstractType
             'data_class' => UserDetail::class,
         ));
     }
+
+    public function getBlockPrefix()
+    {
+        return null;
+    }
 }
