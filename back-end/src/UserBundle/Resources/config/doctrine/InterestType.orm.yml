@@ -30,7 +30,7 @@ UserBundle\Entity\InterestType:
             orphanRemoval: false
         interest:
             targetEntity: AreaOfInterest
-            cascade: ["all"]
+            cascade: { }
             fetch: LAZY
             mappedBy: null
             inversedBy: null

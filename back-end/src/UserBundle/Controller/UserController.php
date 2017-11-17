@@ -55,16 +55,12 @@ class UserController extends FOSRestController
     *
     * @return {array} 
     */
-    
-    public function newAction(Request $request)
-    {
 
-        $data = $request->getContent();
-        // $view = $this->view($data, Response::HTTP_INTERNAL_SERVER_ERROR); 
-        // dump($view);
-        // return $view;
-        // die();       
-        // return new JsonResponse('hello');
+    public function newAction(Request $request)
+    {   
+        // $data = json_decode($request->getContent(), true);
+        // dump($request->request->get('emailId'));
+        // echo "<pre>"; print_r($request->getContent()); exit();
         // $user = $this->get('security.token_storage')->getToken()->getUser();
         // if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
         //     throw $this->createAccessDeniedException();
@@ -73,38 +69,22 @@ class UserController extends FOSRestController
         $newUser = new UserDetail();
         $newUser->addEmailId(new UserEmail());
         $newUser->addContactNumber(new UserContact());
-        $newUser->addInterest(new InterestType());
+        $newUser->addAreaOfInterest(new InterestType());
         $newUser->addGraduationType(new UserGraduation());
+        // $email = new UserEmail();
+        // $data = json_decode($request->getContent(), true);
+        
+       
+        $form = $this->createForm(UserType::class, $newUser);      
 
-        $form = $this->createForm(UserType::class,$newUser);
-        $view = $this->view($newUser, Response::HTTP_INTERNAL_SERVER_ERROR);
-        return $view;
-        $form->handleRequest($request);
-
-        // if ($form->isSubmitted()) {
-            // dump('submit'); 
-            // die();
-            $newUser = $form->getData();     
-            // $file = $newUser->getImage();
-            // dump($newUser);
-            // dump($newUser);
-            // die();
-            $view = $this->view($newUser, Response::HTTP_INTERNAL_SERVER_ERROR);
-            return $view;
-
-            
-            // $fileName = md5(uniqid(mt_rand(), true));
-            // $fileName = $fileName.".".$file->guessExtension();
-            // $file->move(
-            //     $this->getParameter('brochures_directory'), 
-            //     $fileName
-            //     );
-            // $newUser->setImage($fileName);  
-
-            /*$newUser->setImage(
-                new File($this->getParameter("brochures_directory").$newUser->getImage())
-            ); */
-
+        $data = json_decode($request->getContent(), true);
+        $form->submit($data);  
+        // $form->handleRequest($request);
+        // if ($request->isMethod('POST')) {
+        if ($form->isSubmitted()) {
+            // echo "<pre>"; print_r($data);
+            // $newUser = $form->getData(); 
+            // dump($newUser);exit();
             $em = $this->getDoctrine()->getManager();
             $em->persist($newUser);
             $em->flush();
@@ -112,14 +92,70 @@ class UserController extends FOSRestController
                 'success',
                 'New User Added Successfully!'
                 );
-        //     return $this->redirectToRoute('new_user');
-        // }
-            $view = $this->view($newUser, Response::HTTP_INTERNAL_SERVER_ERROR);
-            // return new JsonResponse("$newUser");
-        // return $this->render('UserBundle:Default:new.html.twig',array('form' => $form->createView(),
-        //     ));
+            return $this->redirectToRoute('new_user');
+        }
+    // }
+        $view = $this->view($newUser, Response::HTTP_INTERNAL_SERVER_ERROR);
         return $view;
     }
+
+    
+    // public function newAction(Request $request)
+    // {
+    //     $data = $request->getContent();
+
+    //     // $user = $this->get('security.token_storage')->getToken()->getUser();
+    //     // if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+    //     //     throw $this->createAccessDeniedException();
+    //     // }
+    //     // $session = $request->getSession();
+    //     $newUser = new UserDetail();
+    //     // $newUser->addEmailId(new UserEmail('saravanan.vgs@gmail.com'));
+    //     // $newUser->addContactNumber(new UserContact('7744551144'));
+    //     // $newUser->addInterest(new InterestType('1'));
+    //     // $newUser->addGraduationType(new UserGraduation('2'));
+
+    //     $form = $this->createFormBuilder($newUser)->getForm();
+    //     $form->handleRequest($request);
+    //     $newUser = $form->getData();
+    
+    //     if ($form->isSubmitted()) {
+    //         $newUser = $form->getData();
+    //         dump($newUser);
+    //         die();
+              
+    //         // $file = $newUser->getImage();
+            
+    //         // $fileName = md5(uniqid(mt_rand(), true));
+    //         // $fileName = $fileName.".".$file->guessExtension();
+    //         // $file->move(
+    //         //     $this->getParameter('brochures_directory'), 
+    //         //     $fileName
+    //         //     );
+    //         // $newUser->setImage($fileName);  
+
+    //         /*$newUser->setImage(
+    //             new File($this->getParameter("brochures_directory").$newUser->getImage())
+    //         ); */
+
+    //         $em = $this->getDoctrine()->getManager();
+    //         $em->persist($newUser);
+    //         $em->flush();
+    //         $this->addFlash(
+    //             'success',
+    //             'New User Added Successfully!'
+    //             );
+    //         return $this->redirectToRoute('new_user');
+    //     }
+    //     $newUser = $form->getData();
+    //     dump($newUser);
+    //     die();
+    //         // $view = $this->view($newUser, Response::HTTP_INTERNAL_SERVER_ERROR);
+    //         // return $view;
+    //     // return $this->render('UserBundle:Default:new.html.twig',array('form' => $form->createView(),
+    //     //     ));
+     
+    // }
 
     /**
     * Function to list all user

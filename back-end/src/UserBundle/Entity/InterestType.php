@@ -69,7 +69,6 @@ class InterestType
     public function setInterest(\UserBundle\Entity\AreaOfInterest $interest = null)
     {
         $this->interest = $interest;
-
         return $this;
     }
 

@@ -66,13 +66,13 @@ UserBundle\Entity\UserDetail:
         emailId:
             targetEntity: UserEmail
             cascade: ["persist"]
-            fetch: LAZY
+            # fetch: LAZY
             mappedBy: user
-            inversedBy: null
-            joinColumns:
-                emailId:
-                    referencedColumnName: id
-            orphanRemoval: false
+            # inversedBy: null
+            # joinColumns:
+            #     emailId:
+            #         referencedColumnName: id
+            # orphanRemoval: false
         contactNumber:
             targetEntity: UserContact
             cascade: ["persist", "remove" ]
@@ -83,9 +83,9 @@ UserBundle\Entity\UserDetail:
                 contactNumber:
                     referencedColumnName: id
             orphanRemoval: false
-        interest:
+        areaOfInterest:
             targetEntity: InterestType
-            cascade: ["persist", "remove"]
+            cascade: ["persist", "remove", "merge", "detach", "refresh"]
             fetch: LAZY
             mappedBy: user
             inversedBy: null

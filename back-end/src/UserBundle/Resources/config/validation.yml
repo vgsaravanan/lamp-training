@@ -28,7 +28,7 @@ UserBundle\Entity\UserDetail:
       - valid: ~
     contactNumber:
       - valid: ~
-    interest:
+    areaOfInterest:
       - valid: ~
       # - NotBlank: {message: "Please select the field"}
       # - Choice: { callback: getInterest }

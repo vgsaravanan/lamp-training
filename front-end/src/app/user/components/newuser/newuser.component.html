@@ -50,17 +50,17 @@
     <tr>
     	<td>
     		<mat-form-field class="example-full-width">
-			  <input 
-			  matInput 
-			  [matDatepicker]="picker" 
-			  placeholder="Date of Birth"
+			  <input
+				matInput
+				type = "text"
+			  placeholder="Date of Birth" 
 			  [(ngModel)]="user.dateOfBirth" 
-			  name="dob"
-			  #dob="ngModel"
+			  name="dateOfBirth"
+			  #dateOfBirth
 			  >
-			  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+			  <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
 			</mat-form-field>
-			<mat-datepicker #picker></mat-datepicker>
+			<!-- <mat-datepicker #picker></mat-datepicker> -->
     	</td>
     </tr>
 		<!-- <label for="dateofbirth">Date of Birth</label> -->
@@ -89,17 +89,16 @@
 			<mat-form-field class="example-full-width">
 				<mat-chip-list #chipList 
 				[(ngModel)] = "user.emailId"
-				name = "emailid"
+				name="emailId"
 				pattern="^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
-				id="emailid"
-				#emailid
+				#emailId
 				required
 				>
-				<mat-error *ngIf="emailid.touched && !emailid.valid">
-					<mat-error *ngIf="emailid.errors.required">
+				<mat-error *ngIf="emailId.touched && !emailId.valid">
+					<mat-error *ngIf="emailId.errors.required">
 						emailid is required.
 					</mat-error>
-					<mat-error *ngIf="emailid.errors.pattern"> 
+					<mat-error *ngIf="emailId.errors.pattern"> 
 						Invalid Email.
 					</mat-error>
 				</mat-error>
@@ -436,7 +435,8 @@
 		        #bloodgroup="ngModel" 
 		        id="bloodgroup"
 		        required> 
-			      <mat-option *ngFor="let type of bloodGroupType; let i=index;"  [value]='type.key'>
+				  <mat-option *ngFor="let type of bloodGroupType; let i=index;"  
+				  [value]='type.key'>
 			        {{type.value}}
 			      </mat-option>
 			    </mat-select>
@@ -476,12 +476,16 @@
 		<td>
 			<mat-form-field class="example-full-width">
 			    <mat-select placeholder="Area of Interest" 
-			   [(ngModel)]="user.interestType" 
+			   [(ngModel)]="user.areaOfInterest" 
 		        name="interest" 
 		        #interest="ngModel" 
-		        id="interest" 
+				id="interest"
+				multiple 
 		        required>
-			      <mat-option *ngFor="let type of interestType; let i=index; " [value]="type.key">
+				  <mat-option *ngFor="let type of interestType; let i=index; " 
+				  [value]="type.key"
+				  (click)="selectOptions(type.key)"
+				  >
 			        {{type.value}}
 			      </mat-option>
 			    </mat-select>
@@ -495,6 +499,9 @@
 			</mat-form-field>
 		</td>
 	</tr>
+
+	
+
 	<!-- <div class="form-group">
 		<label for="interest">Area of Interest</label>
 		<mat-form-field class="example-full-width">
@@ -533,20 +540,20 @@
 	<tr>
 		<td>
 			<mat-form-field class="example-full-width">
-			    <mat-select placeholder="Graduation" 
+				<mat-select 
+				placeholder="Graduation" 
 			    [(ngModel)]="user.graduationType" 
-		        name="graduation" 
-		        #graduation="ngModel" 
-		        
-		        id="graduation" 
+		        name="graduationtype" 
+		        #graduationtype = "ngModel"
+				multiple
 		        required>
-			      <mat-option *ngFor="let type of graduationType; let i=index; " [value]="type.key">
+			      <mat-option *ngFor="let type of graduationType; let i=index; " [value]="type.key" (click)="selectGraduation(type.key)">
 			        {{type.value}}
 			      </mat-option>
 			    </mat-select>
 
-			   	<mat-error *ngIf="graduation.touched && !graduation.valid">
-					<mat-error *ngIf="graduation.errors.required">
+			   	<mat-error *ngIf="graduationtype.touched && !graduationtype.valid">
+					<mat-error *ngIf="graduationtype.errors.required">
 						Field is required.
 					</mat-error>
 				</mat-error>

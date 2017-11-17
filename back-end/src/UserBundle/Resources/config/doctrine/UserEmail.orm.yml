@@ -25,7 +25,7 @@ UserBundle\Entity\UserEmail:
     manyToOne:
         user:
             targetEntity: UserDetail
-            cascade: ["all"]
+            cascade: {}
             fetch: LAZY
             mappedBy: null
             inversedBy: emailId

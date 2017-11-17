@@ -38,6 +38,7 @@ class UserType extends AbstractType
                 'required' => false,
                 ))
             ->add('lastName', TextType::class,array('required' => false))
+            
             ->add('dateOfBirth', DateType::class,array(
                 'widget' => "single_text",
                 'attr'=> ['class' => 'js-datepicker'],
@@ -62,7 +63,7 @@ class UserType extends AbstractType
             )
 
             ->add('emailId', CollectionType::class, array(
-                'entry_type' => EmailSet::class,
+                'entry_type' => EmailIdType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
@@ -76,7 +77,7 @@ class UserType extends AbstractType
                 ))
 
             ->add('contactNumber', CollectionType::class, array(
-                'entry_type' => MobileNumberSet::class,
+                'entry_type' => MobileNumberType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
@@ -87,8 +88,8 @@ class UserType extends AbstractType
                     ),
                 ))
 
-            ->add('interest',CollectionType::class, array(
-                'entry_type' => InterestTypeSet::class,
+            ->add('areaOfInterest',CollectionType::class, array(
+                'entry_type' => InterestSetType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
@@ -99,7 +100,7 @@ class UserType extends AbstractType
                 ))
 
             ->add('graduationType',CollectionType::class, array(
-                'entry_type' => Graduation::class,
+                'entry_type' => GraduationDetailType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,

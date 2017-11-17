@@ -119,11 +119,11 @@
         
         <tr>
             <td> 
-                <b>{{ form_label(form.interest,'Area of Interest') }} </b>
+                <b>{{ form_label(form.areaOfInterest,'Area of Interest') }} </b>
             </td>
             <td> 
                 <ul id="interest-fields-list" data-prototype="{{ form_widget(form.interest.vars.prototype)|e }}">
-                {% for interestField in form.interest %}
+                {% for interestField in form.areaOfInterest %}
                     <li class = "list_type">
                         {{ form_widget(interestField) }}
                         <span class = "error_message"> 

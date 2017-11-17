@@ -1,7 +1,5 @@
 <?php
-
 namespace UserBundle\Entity;
-
 /**
  * UserDetail
  */
@@ -11,59 +9,48 @@ class UserDetail
      * @var integer
      */
     private $id;
-
     /**
      * @var string
      */
     private $firstName;
-
     /**
      * @var string
      */
     private $lastName;
-
     /**
      * @var \DateTime
      */
     private $dateOfBirth;
-
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $emailId;
-
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $contactNumber;
-
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $interest;
-
+    private $areaOfInterest;
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $graduationType;
-
     /**
      * @var \UserBundle\Entity\Gender
      */
     private $gender;
-
     /**
      * @var \UserBundle\Entity\BloodGroup
      */
     private $bloodGroup;
     private $image;
-
     public function getImage()
     {
         /*dump($this->image);*/
         return $this->image;
     }
-
     public function setImage($image)
     {
         $this->image=$image;
@@ -71,7 +58,6 @@ class UserDetail
         // die();
         return $this;
     }
-
     /**
      * Constructor
      */
@@ -79,10 +65,9 @@ class UserDetail
     {
         $this->emailId = new \Doctrine\Common\Collections\ArrayCollection();
         $this->contactNumber = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->interest = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->areaOfIntreest = new \Doctrine\Common\Collections\ArrayCollection();
         $this->graduationType = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
     /**
      * Get id
      *
@@ -92,7 +77,6 @@ class UserDetail
     {
         return $this->id;
     }
-
     /**
      * Set firstName
      *
@@ -103,10 +87,8 @@ class UserDetail
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
-
         return $this;
     }
-
     /**
      * Get firstName
      *
@@ -116,7 +98,6 @@ class UserDetail
     {
         return $this->firstName;
     }
-
     /**
      * Set lastName
      *
@@ -127,10 +108,8 @@ class UserDetail
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
-
         return $this;
     }
-
     /**
      * Get lastName
      *
@@ -140,7 +119,6 @@ class UserDetail
     {
         return $this->lastName;
     }
-
     /**
      * Set dateOfBirth
      *
@@ -151,10 +129,8 @@ class UserDetail
     public function setDateOfBirth($dateOfBirth)
     {
         $this->dateOfBirth = $dateOfBirth;
-
         return $this;
     }
-
     /**
      * Get dateOfBirth
      *
@@ -164,7 +140,6 @@ class UserDetail
     {
         return $this->dateOfBirth;
     }
-
     /**
      * Add emailId
      *
@@ -174,11 +149,19 @@ class UserDetail
      */
     public function addEmailId(\UserBundle\Entity\UserEmail $emailId)
     {
+        // dump($emailId); die();
         $this->emailId[] = $emailId;
         $emailId->setUser($this);
+        // $emailId->setEmailId('saravanan');
+        // dump($emailId);
+        // foreach($this->emailId as i) {
+        //     $emailId->setEmailId(i);
+        // }
+        // $emailId->setEmailId($this->emailId);
+        // dump($this->emailId);
+        // dump($emailId);
         return $this;
     }
-
     /**
      * Remove emailId
      *
@@ -188,7 +171,6 @@ class UserDetail
     {
         $this->emailId->removeElement($emailId);
     }
-
     /**
      * Get emailId
      *
@@ -198,7 +180,6 @@ class UserDetail
     {
         return $this->emailId;
     }
-
     /**
      * Add contactNumber
      *
@@ -210,10 +191,9 @@ class UserDetail
     {
         $this->contactNumber[] = $contactNumber;
         $contactNumber->setUser($this);
-
+        // $contactNumber->setcontactNumber('0018974574');
         return $this;
     }
-
     /**
      * Remove contactNumber
      *
@@ -223,7 +203,6 @@ class UserDetail
     {
         $this->contactNumber->removeElement($contactNumber);
     }
-
     /**
      * Get contactNumber
      *
@@ -233,41 +212,38 @@ class UserDetail
     {
         return $this->contactNumber;
     }
-
     /**
-     * Add interest
+     * Add areaOfInterest
      *
-     * @param \UserBundle\Entity\InterestType $interest
+     * @param \UserBundle\Entity\InterestType $areaOfInterest
      *
      * @return UserDetail
      */
-    public function addInterest(\UserBundle\Entity\InterestType $interest)
+    public function addAreaOfInterest(\UserBundle\Entity\InterestType $areaOfInterest)
     {
-        $this->interest[] = $interest;
-        $interest->setUser($this);
+        $this->areaOfInterest[] = $areaOfInterest;
+        $areaOfInterest->setUser($this);
+        // $areaOfInterest->setinterest( $this->areaOfInterest);
         return $this;
     }
-
     /**
      * Remove interest
      *
-     * @param \UserBundle\Entity\InterestType $interest
+     * @param \UserBundle\Entity\InterestType $areaOfIntreest
      */
-    public function removeInterest(\UserBundle\Entity\InterestType $interest)
+    public function removeAreaOfInterest(\UserBundle\Entity\InterestType $areaOfInterest)
     {
-        $this->interest->removeElement($interest);
+        // $this->areaOfInterest->removeElement($areaOfInterest);
     }
-
     /**
-     * Get interest
+     * Get areaOfInterest
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getInterest()
+    public function getAreaOfInterest()
     {
-        return $this->interest;
+        return $this->areaOfInterest;
     }
-
     /**
      * Add graduationType
      *
@@ -279,9 +255,10 @@ class UserDetail
     {
         $this->graduationType[] = $graduationType;
         $graduationType->setUser($this);
+        // $graduationType->setgraduationType($graduationType);
+        
         return $this;
     }
-
     /**
      * Remove graduationType
      *
@@ -291,7 +268,6 @@ class UserDetail
     {
         $this->graduationType->removeElement($graduationType);
     }
-
     /**
      * Get graduationType
      *
@@ -301,7 +277,6 @@ class UserDetail
     {
         return $this->graduationType;
     }
-
     /**
      * Set gender
      *
@@ -312,10 +287,8 @@ class UserDetail
     public function setGender(\UserBundle\Entity\Gender $gender = null)
     {
         $this->gender = $gender;
-
         return $this;
     }
-
     /**
      * Get gender
      *
@@ -325,7 +298,6 @@ class UserDetail
     {
         return $this->gender;
     }
-
     /**
      * Set bloodGroup
      *
@@ -336,10 +308,8 @@ class UserDetail
     public function setBloodGroup(\UserBundle\Entity\BloodGroup $bloodGroup = null)
     {
         $this->bloodGroup = $bloodGroup;
-
         return $this;
     }
-
     /**
      * Get bloodGroup
      *

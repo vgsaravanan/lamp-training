@@ -22,6 +22,9 @@ export class NewuserComponent implements OnInit {
   bloodGroupType: string;
   interestType: string;
   graduationType: string;
+  selectedInterest: number[] = [];
+  selectedGraduation: number[] = [];
+  // x : number;
   
 
   visible: boolean = true;
@@ -34,105 +37,151 @@ export class NewuserComponent implements OnInit {
 
   submitted: boolean = false;
 
+
   constructor(private service: UserService) { 
-    console.log(typeof(this.user.emailId));
-    console.log(this.user);
+    // console.log(typeof(this.user.emailId));
+    // console.log(this.user);
+
+    // this.user.areaOfInterest.push({interest:1});
+    // this.user.areaOfInterest.push({interest:2});
+    // this.user.areaOfInterest.push({interest:3});
+    // this.user.areaOfInterest = [];
+    // this.user.graduationType.push({graduation:1});
+    // this.user.graduationType.push({graduation:2});
+    // this.user.graduationType.push({graduation:3});
   }
 
-
+  
   // fun(obj) {
   //   console.log(obj);
   //   let a = Object.keys(obj).map(function(k){
   //     return obj[k]
   //   } );
   // }
-
+  selectOptions(x) {
+    this.selectedInterest.push(x);
+  }
+  selectGraduation(x) {
+    this.selectedGraduation.push(x);
+  }
   add(event: MatChipInputEvent): void {
     let input = event.input;
     let value = event.value;
-    console.log(event)
-
-    console.log("Before Insert:",this.user.emailId);
+    // console.log(event)
+    // console.log("Before Insert:",this.user.emailId);
     if ((value || '').trim()) {
-      this.user.emailId.push(value.trim());
+      this.user.emailId.push({emailId:value.trim()});
+      // this.user.emailId.push(value.trim());
+
     }
     if (input) {
       input.value = '';
     }
-    console.log("After Insert:",this.user.emailId);
+    // console.log("After Insert:",this.user.emailId);
   }
 
-  removeEmailId(id: string): void {
-    let index = this.user.emailId.indexOf(id);
+  // removeEmailId(id: string): void {
+  //   let index = this.user.emailId.indexOf({emailId:id});
 
-    if (index >= 0) {
-      this.user.emailId.splice(index, 1);
-    }
-    console.log("After Removal:",this.user.emailId);
-  }
+  //   if (index >= 0) {
+  //     this.user.emailId.splice(index, 1);
+  //   }
+  //   // console.log("After Removal:",this.user.emailId);
+  // }
 
   addContact(event: MatChipInputEvent): void {
     let input = event.input;
     let value = event.value;
-    console.log(event)
+    // console.log(event)
 
     console.log("Before Insert:",this.user.contactNumber);
     if ((value || '').trim()) {
-      this.user.contactNumber.push(value.trim());
+      this.user.contactNumber.push({contactNumber:value.trim()});
     }
     if (input) {
       input.value = '';
     }
-    console.log("After Insert:",this.user.contactNumber);
+    // console.log("After Insert:",this.user.contactNumber);
   }
 
-  removeContact(id: string): void {
-    let index = this.user.contactNumber.indexOf(id);
-
-    if (index >= 0) {
-      this.user.contactNumber.splice(index, 1);
+  removeContact(x) {
+    for(let i=0; i < this.user.contactNumber.length; i++)
+    { 
+      if(this.user.contactNumber[i] == x) {
+        this.user.contactNumber.splice(i,1);
+      }
     }
-    console.log("After Removal:",this.user.contactNumber);
+    console.log("Remove:",this.user.contactNumber);
   }
+
+  
+  // removeContact(id: string): void {
+  //   let index = this.user.contactNumber.indexOf(id);
+
+  //   if (index >= 0) {
+  //     this.user.contactNumber.splice(index, 1);
+  //   }
+  //   // console.log("After Removal:",this.user.contactNumber);
+  // }
 
   
   onSubmit() {
     this.submitted = true;
-    console.log(JSON.stringify(this.user));
+    this.user.dateOfBirth = this.user.dateOfBirth.toString();
 
-          this.service.addUser(JSON.stringify(this.user)).subscribe(response=> {
-            console.log('Response');
-            console.log(response);
-          });
-
-    if( this.user) {
-
+    if(this.selectedInterest.length) {
+      this.user.areaOfInterest = [];
+      for(let i= 0; i< this.selectedInterest.length; i++) {
+        this.user.areaOfInterest.push({interest:this.selectedInterest[i]});
+      }
     }
 
-    // this.users;
-    // console.log(JSON.stringify(this.users));
+    if(this.selectedGraduation.length) {
+      this.user.graduationType = [];
+      for(let i= 0; i< this.selectedGraduation.length; i++) {
+        this.user.graduationType.push({graduation:this.selectedGraduation[i]});
+      }
+    }
+    
+    // console.log(this.user.dateOfBirth.toDateString());
+    // console.log(this.user.dateOfBirth.toLocaleDateString());
+    // console.log(this.user.dateOfBirth.toISOString());
+    // console.log(this.user.dateOfBirth.toLocaleString());
+    // console.log(this.user.dateOfBirth.toUTCString());  
+    console.log(JSON.stringify(this.user));
+    console.log('Response');
+    // let result = this.service.addUser(this.user);
+    
+    // console.log(result);
+    this.service.addUser(this.user as User).subscribe(response=> {
+         console.log(response);
+       });
+        //   this.service.addUser(this.user).subscribe(response=> {
+        //     console.log('Response');
+        //    console.log(response);
+        //  });
   }
 
   trackByIndex(index: number, obj: any): any {
     return index;
   }
 
-  addEmailId(x): void {
+  // addEmailId(x): void {
  
-    console.log("Before Insert:",this.user.emailId);
-    this.user.emailId.push(x);
-    console.log("After Insert:",this.user.emailId);
-  }
-
-  // removeEmailId(x) {
-  //   for(let i=0; i < this.user.emailId.length; i++)
-  //   {
-  //     if(this.user.emailId[i] == x) {
-  //       this.user.emailId.splice(i,1);
-  //     }
-  //   }
-  //   console.log("Remove:",this.user.emailId);
+  //   console.log("Before Insert:",this.user.emailId);
+  //   this.user.emailId.push(x);
+  //   console.log("After Insert:",this.user.emailId);
   // }
+
+  removeEmailId(x) {
+    for(let i=0; i < this.user.emailId.length; i++)
+    {
+      if(this.user.emailId[i] == x) {
+        this.user.emailId.splice(i,1);
+      }
+    }
+    console.log("Remove:",this.user.emailId);
+  }
 
   // getUser(): void {
   //     this.service.getUser().then(users => this.user = users);
@@ -143,7 +192,7 @@ export class NewuserComponent implements OnInit {
     this.service.getGender().subscribe(
     gender => {
     this.genderType = gender;
-    console.log(typeof(this.genderType))});
+  });
   }
 
   getBloodGroup(): void {
@@ -178,6 +227,5 @@ export class NewuserComponent implements OnInit {
     this.getBloodGroup();
     this.getGraduationType();
     this.getInterestType();
-    // this.generateArray();
   }
 }

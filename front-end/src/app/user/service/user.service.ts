@@ -10,13 +10,14 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/Rx';
 // import { USERS } from './../model/mockUser';
-import 'rxjs/add/operator/map';
+// import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import { catchError } from 'rxjs/operators';
+import { catchError,tap, map } from 'rxjs/operators';
 
-// const httpOptions = {
-//   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-// };
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable()
 export class UserService {
@@ -32,15 +33,19 @@ export class UserService {
   private interest = 'http://www.mocky.io/v2/5a05297a300000151afe0956';
   private graduation = 'http://www.mocky.io/v2/5a052a4d3000002b1afe0958';
   // private userUrl = "http://www.mocky.io/v2/5a02e79d3300004032f6f13a";
-  private userUrl = "http://localhost:8000/user/new";
+  private userUrl = "http://127.0.0.1:8000/user/new";
   constructor(private http: Http) { }
   
   options = new RequestOptions({ headers: this.headers });
 
-  addUser (user): Observable<User> {
-    console.log(JSON.stringify(user));
-   return this.http.post(this.userUrl, user, this.options)
-   .pipe(catchError(this.handleError<any>('addUser')));
+
+  addUser (user: User): Observable<User> {
+    // console.log(user);
+    // let u = {"firstName":"saravanan"};
+   return this.http.post(this.userUrl, JSON.stringify(user), this.options)
+   .pipe(
+    catchError(this.handleError<any>('addUser'))
+   );
     }
 
   getGender(){
@@ -93,6 +98,10 @@ export class UserService {
       return of(result as T);
     };
   }
+
+  // private log(message: string) {
+  //   this.messageService.add('UserService:' + message);
+  // }
  
   //  private handleError(error: any): Promise<any> {
   //    console.error('An error occurred', error); 

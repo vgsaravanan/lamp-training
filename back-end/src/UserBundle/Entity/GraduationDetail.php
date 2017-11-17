@@ -43,6 +43,7 @@ class GraduationDetail
     public function setGraduation(\UserBundle\Entity\GraduationType $graduation = null)
     {
         $this->graduation = $graduation;
+        $graduation->setType('1');
 
         return $this;
     }
