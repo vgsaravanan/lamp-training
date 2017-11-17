@@ -24,8 +24,6 @@ export class NewuserComponent implements OnInit {
   graduationType: string;
   selectedInterest: number[] = [];
   selectedGraduation: number[] = [];
-  // x : number;
-  
 
   visible: boolean = true;
   selectable: boolean = true;
@@ -34,21 +32,11 @@ export class NewuserComponent implements OnInit {
 
   separatorKeysCodes = [ENTER, COMMA];
 
-
   submitted: boolean = false;
 
 
   constructor(private service: UserService) { 
-    // console.log(typeof(this.user.emailId));
-    // console.log(this.user);
-
-    // this.user.areaOfInterest.push({interest:1});
-    // this.user.areaOfInterest.push({interest:2});
-    // this.user.areaOfInterest.push({interest:3});
-    // this.user.areaOfInterest = [];
-    // this.user.graduationType.push({graduation:1});
-    // this.user.graduationType.push({graduation:2});
-    // this.user.graduationType.push({graduation:3});
+    
   }
 
   
@@ -67,17 +55,12 @@ export class NewuserComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     let input = event.input;
     let value = event.value;
-    // console.log(event)
-    // console.log("Before Insert:",this.user.emailId);
     if ((value || '').trim()) {
       this.user.emailId.push({emailId:value.trim()});
-      // this.user.emailId.push(value.trim());
-
     }
     if (input) {
       input.value = '';
     }
-    // console.log("After Insert:",this.user.emailId);
   }
 
   // removeEmailId(id: string): void {
@@ -92,16 +75,12 @@ export class NewuserComponent implements OnInit {
   addContact(event: MatChipInputEvent): void {
     let input = event.input;
     let value = event.value;
-    // console.log(event)
-
-    console.log("Before Insert:",this.user.contactNumber);
     if ((value || '').trim()) {
       this.user.contactNumber.push({contactNumber:value.trim()});
     }
     if (input) {
       input.value = '';
     }
-    // console.log("After Insert:",this.user.contactNumber);
   }
 
   removeContact(x) {
@@ -111,7 +90,6 @@ export class NewuserComponent implements OnInit {
         this.user.contactNumber.splice(i,1);
       }
     }
-    console.log("Remove:",this.user.contactNumber);
   }
 
   
@@ -127,8 +105,8 @@ export class NewuserComponent implements OnInit {
   
   onSubmit() {
     this.submitted = true;
-    this.user.dateOfBirth = this.user.dateOfBirth.toString();
-
+    // this.user.dateOfBirth = new Date(this.user.dateOfBirth);
+    this.user.dateOfBirth = new Date(this.user.dateOfBirth.getFullYear(), this.user.dateOfBirth.getMonth(), this.user.dateOfBirth.getDate());
     if(this.selectedInterest.length) {
       this.user.areaOfInterest = [];
       for(let i= 0; i< this.selectedInterest.length; i++) {
@@ -150,9 +128,7 @@ export class NewuserComponent implements OnInit {
     // console.log(this.user.dateOfBirth.toUTCString());  
     console.log(JSON.stringify(this.user));
     console.log('Response');
-    // let result = this.service.addUser(this.user);
-    
-    // console.log(result);
+
     this.service.addUser(this.user as User).subscribe(response=> {
          console.log(response);
        });
@@ -165,13 +141,6 @@ export class NewuserComponent implements OnInit {
   trackByIndex(index: number, obj: any): any {
     return index;
   }
-
-  // addEmailId(x): void {
- 
-  //   console.log("Before Insert:",this.user.emailId);
-  //   this.user.emailId.push(x);
-  //   console.log("After Insert:",this.user.emailId);
-  // }
 
   removeEmailId(x) {
     for(let i=0; i < this.user.emailId.length; i++)

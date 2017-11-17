@@ -6,7 +6,7 @@ export class User{
 	emailId: emailType[] = [];
 	contactNumber: contactType[] = [];
 	gender: string = '';
-	dateOfBirth: string;
+	dateOfBirth: Date;
 	bloodGroup: string[] = [];
 	areaOfInterest: interestType[] = [];
 	graduationType: graduationDetail[] = [];

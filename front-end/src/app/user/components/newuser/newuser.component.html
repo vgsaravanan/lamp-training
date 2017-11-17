@@ -26,74 +26,112 @@
 				#firstName = "ngModel"
 				pattern="^[a-z]+$" 
 				minlength="3" 
-				maxlength="10" 
 				required>
-				
+				<mat-error *ngIf="firstName.touched && !firstName.valid">
+					<mat-error *ngIf="firstName.errors.required">
+						First Name is required.
+					</mat-error>
+					<mat-error *ngIf="firstName.errors.minlength"> 
+						First Name should be minimum {{ firstName.errors.minlength.requiredLength }} characters.
+					</mat-error>
+					<mat-error *ngIf="firstName.errors.pattern"> 
+						First Name doesn't match the pattern
+					</mat-error>
+				</mat-error>
     		</mat-form-field>
     	</td>
     	<td>
-    		<mat-form-field class="example-full-width">
-    			<input matInput 
-    			placeholder="Last Name"
-    			[(ngModel)]="user.lastName" 
-			    name="lastName" 
-			    id="lastName" 
-			    pattern="^[a-z]+$" 
-			    minlength="3" 
-				maxlength="10" 
-				#lastName
+			<mat-form-field class="example-full-width">
+				<input matInput 
+				placeholder="Last Name"
+				name="lastName"
+				[(ngModel)]="user.lastName"    
+				#lastName = "ngModel"
+				pattern="^[a-z]+$" 
+				minlength="3" 
 				required>
-    		</mat-form-field>
+				<mat-error *ngIf="lastName.touched && !lastName.valid">
+					<mat-error *ngIf="lastName.errors.required">
+						Last Name is required.
+					</mat-error>
+					<mat-error *ngIf="lastName.errors.minlength"> 
+							Last Name should be minimum {{ lastName.errors.minlength.requiredLength }} characters.
+					</mat-error>
+					<mat-error *ngIf="lastName.errors.pattern"> 
+							Last Name doesn't match the pattern
+					</mat-error>
+				</mat-error>
+			</mat-form-field>
     	</td>
     </tr>
 
     <tr>
     	<td>
     		<mat-form-field class="example-full-width">
-			  <input
-				matInput
-				type = "text"
+			  <input 
+			  matInput
+			  [matDatepicker] = 'picker'
 			  placeholder="Date of Birth" 
 			  [(ngModel)]="user.dateOfBirth" 
 			  name="dateOfBirth"
 			  #dateOfBirth
-			  >
-			  <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
+			  required>
+			  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+			  <mat-error *ngIf="dateOfBirth.touched && !dateOfBirth.valid">
+				<mat-error *ngIf="dateOfBirth.errors.required">
+					Field is required.
+				</mat-error>
+			</mat-error>
 			</mat-form-field>
-			<!-- <mat-datepicker #picker></mat-datepicker> -->
+			<mat-datepicker #picker></mat-datepicker>
     	</td>
     </tr>
-		<!-- <label for="dateofbirth">Date of Birth</label> -->
-		<!-- <mat-form-field class="example-full-width">
-		  <input matInput [matDatepicker]="picker" placeholder="Date of Birth">
-		  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-		  <mat-datepicker #picker></mat-datepicker>
-		</mat-form-field>
-	</div>
- -->
  	<tr>
  		<td>
-        <!-- [(ngModel)]="type[i]" name="gender" #g="ngModel" -->
-			 <mat-radio-group 
-			 [(ngModel)]="user.gender" 
-			 name="gender"
-			 #gender = "ngModel"> 
+			<mat-radio-group 
+			[(ngModel)]="user.gender" 
+			name="gender"
+			#gender = "ngModel"
+			required> 
 				<mat-radio-button 
-				*ngFor="let type of genderType; let i=index "  [value]='type.key'> {{type.value}} </mat-radio-button>
+				*ngFor="let type of genderType; let i=index "  
+				[value]='type.key'> 
+					{{type.value}} 
+				</mat-radio-button>
 			</mat-radio-group>
+			<mat-error *ngIf="gender.touched && !gender.valid">
+				<mat-error *ngIf="gender.errors.required">
+					Field is required.
+				</mat-error>
+			</mat-error>
  		</td>
 	 </tr>
-	 <!-- Map chip list -->
+
 	 <tr>
 		 <td>
 			<mat-form-field class="example-full-width">
-				<mat-chip-list #chipList 
+				<mat-chip-list 
+				#chipList 
 				[(ngModel)] = "user.emailId"
 				name="emailId"
 				pattern="^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
 				#emailId
-				required
-				>
+				required>
+				<mat-chip *ngFor="let email of user.emailId; let i = index; trackBy:trackByIndex;" 
+				[selectable]="selectable"
+				[removable]="removable" 
+				(remove)="removeEmailId(email)">
+					{{ user.emailId[i].emailId}}
+				<mat-icon matChipRemove *ngIf="removable"> x </mat-icon>
+				</mat-chip>
+				<input 
+				placeholder="Email-ID"
+				type="email"
+				[matChipInputFor]="chipList"
+				[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+				[matChipInputAddOnBlur]="addOnBlur"
+				(matChipInputTokenEnd)="add($event)" 
+				/>
 				<mat-error *ngIf="emailId.touched && !emailId.valid">
 					<mat-error *ngIf="emailId.errors.required">
 						emailid is required.
@@ -102,18 +140,6 @@
 						Invalid Email.
 					</mat-error>
 				</mat-error>
-				<mat-chip *ngFor="let email of user.emailId; let i = index; trackBy:trackByIndex;" [selectable]="selectable"
-						[removable]="removable" (remove)="removeEmailId(email)">
-				{{ user.emailId[i]}}
-				<mat-icon matChipRemove *ngIf="removable"> x </mat-icon>
-				</mat-chip>
-				<input placeholder="Email-ID"
-					type="email"
-						[matChipInputFor]="chipList"
-						[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-						[matChipInputAddOnBlur]="addOnBlur"
-						(matChipInputTokenEnd)="add($event)" 
-						/>
 				</mat-chip-list>
 				<mat-hint align="start">
 						Multiple Email Can be provided 
@@ -122,100 +148,13 @@
 		 </td>
 	 </tr>
 
-	
-	 <!-- Map chip list -->
-
-	 <!-- Trial -->
-
-	 <!-- <tr>
-		<td>
-		<mat-form-field 
-		class="example-full-width"
-		*ngFor = "let email of user.emailId; let i = index; trackBy:trackByIndex;">
-			<input matInput 
-			   placeholder="Email-ID"
-			   name="emailId" 
-			   [(ngModel)]="user.emailId[i]"
-			   #ids 
-			   id="email_id" 
-			   pattern="^[a-z 0-9 @]+$" 
-			   required>
-		   <mat-error *ngIf="ids.touched && !ids.valid">
-			   <mat-error *ngIf="ids.errors.required">
-				   emailid is required.
-			   </mat-error>
-			   <mat-error *ngIf="ids.errors.pattern"> 
-				   Invalid Email.
-			   </mat-error>
-			</mat-error>
-		<div *ngIf="user.emailId.length > 1" > 
-			<button mat-mini-fab color="primary" class="button-row" (click)="removeEmailId(email)">x
-			</button>
-		</div>
-		</mat-form-field>
-			<button mat-mini-fab color="primary" class="button-row" (click)="addEmailId(ids.value)">
-				+
-			</button>
-		</td>
-	</tr> -->
-
-
-	 <!-- Error -->
- 	<!-- <tr>
- 		<td>
-		 <mat-form-field 
-		 class="example-full-width"
-		 *ngFor = "let email of user.emailId; let i = index; trackBy:trackByIndex;" 
-		 >
-		 <ul>
-			 <li>
- 			<input 
- 				matInput 
-    			placeholder="Email-ID"
-    			[(ngModel)] = "user.emailId[i]" 
-			    name="emailId"  
-			    id="emailid" 
-				pattern="^[a-z 0-9 @]+$" 
-				#emailid
-				required>
-			</li>
-			<mat-error *ngIf="emailid.touched && !emailid.valid">
-				<mat-error *ngIf="emailid.errors.required">
-					emailid is required.
-				</mat-error>
-				<mat-error *ngIf="emailid.errors.pattern"> 
-					Invalid Email.
-				</mat-error>
-			</mat-error>
-			<li>
-				<button mat-mini-fab color="primary" class="button-row" (click)="addEmailId(emailid.value)">
-					+
-				</button>
-			</li>
-		</ul>
-	</mat-form-field>
-
-	        <ul *ngIf="user.emailId.length > 1">
-	        	<li *ngFor = "let email of user.emailId; let i = index; trackBy:trackByIndex;">
-	        		<mat-form-field class="example-full-width">
-	        		<input 
-	        			matInput
-		        		type="text"
-		        		name="email" 
-						[(ngModel)]="user.emailId[i]" 
-				    	required>
-					</mat-form-field>
-					<button mat-mini-fab color="primary" class="button-row" (click)="removeEmailId(email)">x
-					</button>
-	        	</li>
-	        </ul>
- 		</td>
- 	</tr> -->
-
  	<tr>
  		<td>
 			<mat-form-field class="example-full-width">
-				<mat-chip-list #chipList1 
+				<mat-chip-list 
+				class="mat-chip-list-stacked"
+				aria-orientation="vertical"
+				#chipList1 
 				[(ngModel)] = "user.contactNumber"
 				name = "contactnumber"
 				pattern="^[0-9]+"
@@ -223,208 +162,38 @@
 				#contactnumber
 				required
 				>
-				<mat-error *ngIf="contactnumber.touched && !contactnumber.valid">
-					<mat-error *ngIf="contactnumber.errors.required">
-							contactnumber is required.
-					</mat-error>
-					<mat-error *ngIf="contactnumber.errors.pattern"> 
-							Invalid Contact Number.
-					</mat-error>
-				</mat-error>
-				<mat-chip *ngFor="let contact of user.contactNumber; let i = index; trackBy:trackByIndex;" [selectable]="selectable"
-						[removable]="removable" (remove)="removeContact(contact)">
-				{{ user.contactNumber[i]}}
+				<mat-chip *ngFor="let contact of user.contactNumber; let i = index; trackBy:trackByIndex;" 
+				[selectable]="selectable"
+				[removable]="removable" 
+				(remove)="removeContact(contact)"
+				[color]="Primary">
+				
+					{{ user.contactNumber[i].contactNumber}}
 				<mat-icon matChipRemove *ngIf="removable"> x </mat-icon>
 				</mat-chip>
+				</mat-chip-list>
 				<input 
 				placeholder="Contact Number"
-				[matChipInputFor]="chipList1 "
+				[matChipInputFor]="chipList1"
 				[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
 				[matChipInputAddOnBlur]="addOnBlur"
 				(matChipInputTokenEnd)="addContact($event)" 
-						/>
-				</mat-chip-list>
-				<!-- <mat-hint align="start">
-						Multiple Email Can be provided 
-				</mat-hint> -->
-			</mat-form-field>
-		
-
-
- 			<!-- <mat-form-field class="example-full-width">
- 			<input 
- 				matInput 
-    			placeholder="contact Number"
-    			[(ngModel)] = "user.contactNumber" 
-			    name="contactnumber" 
-			    #contactnumber="ngModel"  
-			    id="contactnumber" 
-			    pattern="^[0-9]+$" 
-				required>
-
-			<mat-error *ngIf="contactnumber.touched && !contactnumber.valid">
-				<mat-error *ngIf="contactnumber.errors.required">
-					contactnumber is required.
+				/>
+				<mat-error *ngIf="chipList1.touched && !chipList1.valid">
+					<mat-error *ngIf="chipList1.errors.required">
+							contactnumber is required.
+					</mat-error>
+					<mat-error *ngIf="chipList1.errors.pattern"> 
+							Invalid Contact Number.
+					</mat-error>
 				</mat-error>
-				<mat-error *ngIf="contactnumber.errors.required"> 
-					Invalid Contact Number.
-				</mat-error>
-			</mat-error>
+				<mat-hint align="start">
+						Multiple Contact Can be provided 
+				</mat-hint>
 			</mat-form-field>
-			<button mat-mini-fab color="primary" class="button-row" (click)="addcontact(contactnumber.value)">+
-			</button>
-
-	        <ul>
-	        	<li *ngFor = "let number of contactNumber">
-	        	<mat-form-field class="example-full-width">
-	        		<input 
-	        			matInput
-		        		type="text"
-		        		name="number" 
-				        [value]="number" 
-				    	required>
-				</mat-form-field>
-				<button mat-mini-fab color="primary" class="button-row" (click)="removecontact(number)">x
-				</button>
-	        	</li>
-	        </ul>	 -->
  		</td>	
- 	</tr>
-
-
-	<!-- <div class="form-group">
-	 <label for="firstName">First Name</label>	
-	<input 
-	ngModel 
-	name="firstName" 
-	#firstName="ngModel" 
-	(change)="log(firstName)" 
-	class="form-control" 
-	id="firstName" 
-	pattern="^[a-z]+$" 
-	minlength="3" 
-	maxlength="10" 
-	required>
-	<div 
-	class="alert alert-danger" 
-	*ngIf="firstName.touched && !firstName.valid">
-		<div *ngIf="firstName.errors.required">
-			First Name is required.
-		</div>
-		<div *ngIf="firstName.errors.minlength"> 
-			First Name should be minimum {{ firstName.errors.minlength.requiredLength }} characters.
-		</div>
-		<div *ngIf="firstName.errors.pattern"> 
-			First Name doesn't match the pattern
-		</div> 
-	</div>
-	</div>
-
-	<div class="form-group">
-	<label for="lastName">Last Name</label>	
-	<input 
-	    ngModel 
-	    name="lastName" 
-	    #lastName="ngModel" 
-	    (change)="log(lastName)" 
-	    class="form-control" 
-	    id="lastName" 
-	    pattern="^[a-z]+$" 
-	    minlength="3" 
-	    maxlength="10" 
-		required>
-
-	<div 
-	class="alert alert-danger" 
-	*ngIf="lastName.touched && !lastName.valid">
-		<div *ngIf="lastName.errors.required">
-			Last Name is required.
-		</div>
-		<div *ngIf="lastName.errors.minlength"> 
-			Last Name should be minimum {{ lastName.errors.minlength.requiredLength }} characters.
-		</div>
-		<div *ngIf="lastName.errors.pattern"> 
-			Last Name doesn't match the pattern
-		</div> 
-	</div>
-	</div> --> 
-
-	<!-- <div class="form-group">
-        <label for="emailid">Email-ID</label>
-        <input 
-	    ngModel 
-	    name="emailid" 
-	    #emailid="ngModel"  
-	    class="form-control" 
-	    id="emailid" 
-	    pattern="^[a-z 0-9 @]+$" 
-		required>
-		<div 
-		class="alert alert-danger" 
-		*ngIf="emailid.touched && !emailid.valid">
-			<div *ngIf="emailid.errors.required">
-				emailid is required.
-			</div>
-			<div *ngIf="lastName.errors.pattern"> 
-				Invalid Email.
-			</div> 
-		</div>
-		<button class="btn btn-success" (click)="addEmailId(emailid.value)">+</button>
-        <ul>
-        	<li *ngFor = "let email of emailId">
-        		<input 
-	        		type="text"
-	        		name="email" 
-	        		class="form-control" 
-			        [value]="email" 
-			    	required>
-			   <button class="btn btn-success" (click)="removeEmailId(email)">x</button>
-        	</li>
-        </ul>	
-    </div>
-
-    <div class="form-group">
-        <label for="contactnumber">Contact Number</label>
-        <input 
-	    ngModel 
-	    name="contactnumber" 
-	    #contactnumber="ngModel"  
-	    class="form-control" 
-	    id="contactnumber" 
-	    pattern="^[0-9]+$" 
-		required>
-		<div 
-		class="alert alert-danger" 
-		*ngIf="contactnumber.touched && !contactnumber.valid">
-			<div *ngIf="contactnumber.errors.required">
-				contactnumber is required.
-			</div>
-			<div *ngIf="contactnumber.errors.required">
-				Invalid Contact Number
-			</div>
-		</div>
-		<button class="btn btn-success" (click)="addcontact(contactnumber.value)">+</button>
-        <ul>
-        	<li *ngFor = "let number of contactNumber">
-        		<input 
-	        		type="text"
-	        		name="number" 
-	        		class="form-control" 
-			        [value]="number" 
-			    	required>
-			   <button class="btn btn-success" (click)="removecontact(number)">x</button>
-        	</li>
-        </ul>	
-    </div> -->
-
-    
-	<!-- <div class="form-group">
-		<label for="gender">Gender</label>
-		<mat-radio-group >
-			<mat-radio-button *ngFor = "let type of gender" [value]="type">{{type}}</mat-radio-button>
-		</mat-radio-group>
-	</div> -->
-
+	 </tr>
+	 
 	<tr>
 		<td>
 			<mat-form-field class="example-full-width">
@@ -450,28 +219,6 @@
 			</mat-form-field>
 		</td>
 	</tr>
-	<!-- <div class="form-group">
-		<mat-form-field class="example-full-width">
-		    <mat-select placeholder="Blood Group" ngModel 
-	        name="bloodgroup" 
-	        #bloodgroup="ngModel" 
-	        id="bloodgroup"
-	        required>
-		      <mat-option *ngFor="let group of bloodGroup" [value]="group">
-		        {{group}}
-		      </mat-option>
-		    </mat-select>
-		</mat-form-field>
-
-		<div 
-        class="alert alert-danger" 
-        *ngIf="bloodgroup.touched && !bloodgroup.valid">
-        	<div *ngIf="bloodgroup.errors.required">
-        		Field is required.
-        	</div>
-        </div>
-	</div> -->
-
 	<tr>
 		<td>
 			<mat-form-field class="example-full-width">
@@ -484,59 +231,19 @@
 		        required>
 				  <mat-option *ngFor="let type of interestType; let i=index; " 
 				  [value]="type.key"
-				  (click)="selectOptions(type.key)"
-				  >
+				  (click)="selectOptions(type.key)" >
 			        {{type.value}}
 			      </mat-option>
 			    </mat-select>
-
 			    <mat-error *ngIf="interest.touched && !interest.valid">
 					<mat-error *ngIf="interest.errors.required">
 						Field is required.
 					</mat-error>
 				</mat-error>
-
 			</mat-form-field>
 		</td>
 	</tr>
 
-	
-
-	<!-- <div class="form-group">
-		<label for="interest">Area of Interest</label>
-		<mat-form-field class="example-full-width">
-		    <mat-select placeholder="Area of Interest" 
-		    ngModel 
-	        name="interest" 
-	        #interest="ngModel" 
-	       
-	        id="interest" 
-	        required>
-		      <mat-option *ngFor="let group of interestType" [value]="group">
-		        {{group}}
-		      </mat-option>
-		    </mat-select>
-		</mat-form-field> -->
-		<!-- <select 
-			ngModel 
-	        name="interest" 
-	        #interest="ngModel" 
-	        class="form-control" 
-	        id="interest" 
-	        required>
-			<option *ngFor="let group of interestType" [value]="group">
-			{{group}}</option>
-		</select> -->
-
-		<!-- <div 
-        class="alert alert-danger" 
-        *ngIf="interest.touched && !interest.valid">
-        	<div *ngIf="interest.errors.required">
-        		Field is required.
-        	</div>
-        </div> -->
-<!-- 	</div> -->
-		
 	<tr>
 		<td>
 			<mat-form-field class="example-full-width">
@@ -562,58 +269,12 @@
 		</td>
 	</tr>
 
-	<!-- <div class="form-group">
-		<label for="graduation">Graduation</label>
-		<mat-form-field class="example-full-width">
-		    <mat-select placeholder="Graduation" 
-		    ngModel 
-	        name="graduation" 
-	        #graduation="ngModel" 
-	        
-	        id="graduation" 
-	        required>
-		      <mat-option *ngFor="let group of graduationType" [value]="group">
-		        {{group}}
-		      </mat-option>model
-		    </mat-select>
-		</mat-form-field> -->
-		<!-- <select 
-			ngModel 
-	        name="graduation" 
-	        #graduation="ngModel" 
-	        class="form-control" 
-	        id="graduation" 
-	        required>
-			<option *ngFor="let group of graduationType" [value]="group">
-			{{group}}</option>
-		</select> -->
-
-		<!-- <div 
-        class="alert alert-danger" 
-        *ngIf="graduation.touched && !graduation.valid">
-        	<div *ngIf="graduation.errors.required">
-        		Field is required.
-        	</div>
-        </div>
-	</div> -->
 	<tr>
 		<td>
-			<button type="submit" mat-raised-button color="primary" class="button-row" (click) = "onSubmit()">Submit</button>		
-		</td>
+			<button mat-raised-button type="submit" color="primary" (click) = "onSubmit()">Submit</button>		
+		</td> 
 	</tr> 
 	 </table>
-	 <pre> {{ userForm.value | json }}</pre>
+	 <!-- <pre> {{ userForm.value | json }}</pre> -->
     </form>
 </div>
-
-
-
- <!-- objectkeys(obj) {
-    console.log(obj);
-      let keys = Object.keys(obj);
-      for(let k in obj) {
-        keys.push(k);
-      }
-      console.log(keys);
-      return (keys);
-    } -->
