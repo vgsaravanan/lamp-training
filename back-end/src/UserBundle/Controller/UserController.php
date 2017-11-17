@@ -35,7 +35,7 @@ use Symfony\Component\HttpFoundation\File\File;
 *
 */
 
-class UserController extends FOSRestController
+class UserController extends Controller
 {
     private $limit;
     private $offset;
@@ -82,21 +82,18 @@ class UserController extends FOSRestController
         // $form->handleRequest($request);
         // if ($request->isMethod('POST')) {
         if ($form->isSubmitted()) {
-            // echo "<pre>"; print_r($data);
-            // $newUser = $form->getData(); 
-            // dump($newUser);exit();
             $em = $this->getDoctrine()->getManager();
             $em->persist($newUser);
             $em->flush();
-            $this->addFlash(
-                'success',
-                'New User Added Successfully!'
-                );
-            return $this->redirectToRoute('new_user');
+            return new JsonResponse($newUser);
+            // return new JsonResponse([
+            //     'errors' => [
+            //         'firstName' => 'First name is invalid'
+            //     ],
+            //     'messages' => '',
+            //     'status' => 400
+            // ]);
         }
-    // }
-        $view = $this->view($newUser, Response::HTTP_INTERNAL_SERVER_ERROR);
-        return $view;
     }
 
     

@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -39,7 +39,7 @@ class UserType extends AbstractType
                 ))
             ->add('lastName', TextType::class,array('required' => false))
             
-            ->add('dateOfBirth', DateType::class,array(
+            ->add('dateOfBirth', DateTimeType::class,array(
                 'widget' => "single_text",
                 'attr'=> ['class' => 'js-datepicker'],
                 'html5' => false,

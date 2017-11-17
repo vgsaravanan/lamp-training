@@ -14,7 +14,7 @@
 
 <div class="container">
     <h1>NEW USER</h1>
-    <form class="example-form" name="user" #userForm="ngForm">
+    <form class="example-form" name="user" #userForm="ngForm" (ngSubmit)="onSubmit()">
     <table class="example-full-width" cellspacing="0" align="center" > 
     <tr>
     	<td>
@@ -75,6 +75,7 @@
 			  [(ngModel)]="user.dateOfBirth" 
 			  name="dateOfBirth"
 			  #dateOfBirth
+			  disabled
 			  required>
 			  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 			  <mat-error *ngIf="dateOfBirth.touched && !dateOfBirth.valid">
@@ -83,7 +84,7 @@
 				</mat-error>
 			</mat-error>
 			</mat-form-field>
-			<mat-datepicker #picker></mat-datepicker>
+			<mat-datepicker #picker disabled='false'></mat-datepicker>
     	</td>
     </tr>
  	<tr>
@@ -111,12 +112,12 @@
 		 <td>
 			<mat-form-field class="example-full-width">
 				<mat-chip-list 
+				class="mat-chip-list-stacked"
+				aria-orientation="vertical"
 				#chipList 
 				[(ngModel)] = "user.emailId"
 				name="emailId"
-				pattern="^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
-				#emailId
-				required>
+				#emailId>
 				<mat-chip *ngFor="let email of user.emailId; let i = index; trackBy:trackByIndex;" 
 				[selectable]="selectable"
 				[removable]="removable" 
@@ -127,6 +128,7 @@
 				<input 
 				placeholder="Email-ID"
 				type="email"
+				pattern="^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
 				[matChipInputFor]="chipList"
 				[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
 				[matChipInputAddOnBlur]="addOnBlur"
@@ -158,9 +160,7 @@
 				[(ngModel)] = "user.contactNumber"
 				name = "contactnumber"
 				pattern="^[0-9]+"
-				id="contactnumber"
 				#contactnumber
-				required
 				>
 				<mat-chip *ngFor="let contact of user.contactNumber; let i = index; trackBy:trackByIndex;" 
 				[selectable]="selectable"
@@ -179,11 +179,11 @@
 				[matChipInputAddOnBlur]="addOnBlur"
 				(matChipInputTokenEnd)="addContact($event)" 
 				/>
-				<mat-error *ngIf="chipList1.touched && !chipList1.valid">
-					<mat-error *ngIf="chipList1.errors.required">
+				<mat-error *ngIf="contactnumber.touched && !contactnumber.valid">
+					<mat-error *ngIf="contactnumber.errors.required">
 							contactnumber is required.
 					</mat-error>
-					<mat-error *ngIf="chipList1.errors.pattern"> 
+					<mat-error *ngIf="contactnumber.errors.pattern"> 
 							Invalid Contact Number.
 					</mat-error>
 				</mat-error>
@@ -271,7 +271,8 @@
 
 	<tr>
 		<td>
-			<button mat-raised-button type="submit" color="primary" (click) = "onSubmit()">Submit</button>		
+			<button mat-raised-button type="submit" color="primary" (click) = "userForm.reset()" [disabled]="!userForm.form.valid">Submit</button>
+			<button mat-raised-button type="submit" color="primary" (click) = "userForm.reset()">Reset</button>		
 		</td> 
 	</tr> 
 	 </table>

@@ -6,3 +6,7 @@
  display: inline-block;
  line-height: 100%;   
 }
+
+.mat-chip-list-stacked {
+    width: 50%;
+}

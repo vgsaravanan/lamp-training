@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import { UserService } from '../../service/user.service';
 import {ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material';
+import * as moment from 'moment';
 
 const COMMA = 188;
 
@@ -105,8 +106,9 @@ export class NewuserComponent implements OnInit {
   
   onSubmit() {
     this.submitted = true;
+
     // this.user.dateOfBirth = new Date(this.user.dateOfBirth);
-    this.user.dateOfBirth = new Date(this.user.dateOfBirth.getFullYear(), this.user.dateOfBirth.getMonth(), this.user.dateOfBirth.getDate());
+    this.user.dateOfBirth = moment(this.user.dateOfBirth).toDate();  
     if(this.selectedInterest.length) {
       this.user.areaOfInterest = [];
       for(let i= 0; i< this.selectedInterest.length; i++) {
