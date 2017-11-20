@@ -1,6 +1,5 @@
 import { Component, OnInit, Input} from '@angular/core';
 import { User } from '../../model/user';
-import { Gender } from '../../model/gender'
 import 'rxjs/add/operator/map';
 import { UserService } from '../../service/user.service';
 import {ENTER} from '@angular/cdk/keycodes';
@@ -17,8 +16,7 @@ const COMMA = 188;
 export class NewuserComponent implements OnInit {
 
   user: User = new User();
-
-  newuser: User[];
+  // newuser: User[];
   genderType: string;
   bloodGroupType: string;
   interestType: string;
@@ -35,18 +33,10 @@ export class NewuserComponent implements OnInit {
 
   submitted: boolean = false;
 
-
   constructor(private service: UserService) { 
     
   }
 
-  
-  // fun(obj) {
-  //   console.log(obj);
-  //   let a = Object.keys(obj).map(function(k){
-  //     return obj[k]
-  //   } );
-  // }
   selectOptions(x) {
     this.selectedInterest.push(x);
   }
@@ -106,9 +96,7 @@ export class NewuserComponent implements OnInit {
   
   onSubmit() {
     this.submitted = true;
-
-    // this.user.dateOfBirth = new Date(this.user.dateOfBirth);
-    this.user.dateOfBirth = moment(this.user.dateOfBirth).toDate();  
+    // this.user.dateOfBirth =this.user.dateOfBirth;  
     if(this.selectedInterest.length) {
       this.user.areaOfInterest = [];
       for(let i= 0; i< this.selectedInterest.length; i++) {
@@ -122,22 +110,13 @@ export class NewuserComponent implements OnInit {
         this.user.graduationType.push({graduation:this.selectedGraduation[i]});
       }
     }
-    
-    // console.log(this.user.dateOfBirth.toDateString());
-    // console.log(this.user.dateOfBirth.toLocaleDateString());
-    // console.log(this.user.dateOfBirth.toISOString());
-    // console.log(this.user.dateOfBirth.toLocaleString());
-    // console.log(this.user.dateOfBirth.toUTCString());  
+
     console.log(JSON.stringify(this.user));
     console.log('Response');
 
     this.service.addUser(this.user as User).subscribe(response=> {
          console.log(response);
        });
-        //   this.service.addUser(this.user).subscribe(response=> {
-        //     console.log('Response');
-        //    console.log(response);
-        //  });
   }
 
   trackByIndex(index: number, obj: any): any {
@@ -189,9 +168,6 @@ export class NewuserComponent implements OnInit {
       }
     )
   }
-
-
-
   ngOnInit() {
     // this.getUser();
     this.getGender();

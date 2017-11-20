@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http,RequestOptions } from '@angular/http';
 import { HttpHeaders} from '@angular/common/http';
+import { Gender } from '../../core/entity';
 import { User } from './../model/user';
-import { Gender } from './../model/gender';
-import { BloodGroup } from './../model/gender';
-import { InterestType } from './../model/gender';
-import { GraduationType } from './../model/gender';
+import { BloodGroup } from '../../core/entity';
+import { InterestType } from '../../core/entity';
+import { GraduationType } from '../../core/entity';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/Rx';
@@ -13,11 +13,6 @@ import 'rxjs/Rx';
 // import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { catchError,tap, map } from 'rxjs/operators';
-
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
 
 @Injectable()
 export class UserService {
@@ -40,8 +35,6 @@ export class UserService {
 
 
   addUser (user: User): Observable<User> {
-    // console.log(user);
-    // let u = {"firstName":"saravanan"};
    return this.http.post(this.userUrl, JSON.stringify(user), this.options)
    .pipe(
     catchError(this.handleError<any>('addUser'))
@@ -71,41 +64,11 @@ export class UserService {
       (response) => response.json()
       );
   }
-  
- 
-  //  getUser(): Promise<User[]> {
-  //    return Promise.resolve(USERS);
-  //  }
- 
-  
-  //  getBloodGroup() {
-  //    return ["A+","B+","O+","AB+","AB-","O-","B-","A-"];
-  //  }
- 
-  //  getInterestType() {
-  //    return ['Cricket', 'FootBall', 'Racing', 'Listen to Music'];
-  //  }
- 
-  //  getGraduationType() {
-  //    return ['SSLC', 'HSC', 'UG', 'PG', 'MASTERS'];
-  //  }
 
    private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
       console.error(error);
-
       return of(result as T);
     };
   }
-
-  // private log(message: string) {
-  //   this.messageService.add('UserService:' + message);
-  // }
- 
-  //  private handleError(error: any): Promise<any> {
-  //    console.error('An error occurred', error); 
-  //    return Promise.reject(error.message || error);
-  //  }
-
 }

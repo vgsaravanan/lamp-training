@@ -1,8 +1,6 @@
 export class User{
 	firstName: string ='';
 	lastName: string = '';
-	// var arr: Array<{id: number, text: string}> = [...];
-	// emailId: Array<{ emailId:string}> = [];
 	emailId: emailType[] = [];
 	contactNumber: contactType[] = [];
 	gender: string = '';
@@ -12,7 +10,7 @@ export class User{
 	graduationType: graduationDetail[] = [];
 	
 	constructor() {
-		this.areaOfInterest.push();
+		// this.areaOfInterest.push();
 	}
 }
 

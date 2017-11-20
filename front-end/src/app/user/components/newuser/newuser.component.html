@@ -16,6 +16,17 @@
     <h1>NEW USER</h1>
     <form class="example-form" name="user" #userForm="ngForm" (ngSubmit)="onSubmit()">
     <table class="example-full-width" cellspacing="0" align="center" > 
+	<tr>
+		<td>
+			<mat-form-field class="example-full-width">
+				<input
+				type = "file" 
+				matInput 
+				placeholder="First Name"
+				required>
+			</mat-form-field>
+		</td>
+	</tr>
     <tr>
     	<td>
     		<mat-form-field class="example-full-width">
@@ -39,7 +50,9 @@
 					</mat-error>
 				</mat-error>
     		</mat-form-field>
-    	</td>
+		</td>
+	</tr>
+	<tr>
     	<td>
 			<mat-form-field class="example-full-width">
 				<input matInput 
@@ -258,24 +271,20 @@
 			        {{type.value}}
 			      </mat-option>
 			    </mat-select>
-
 			   	<mat-error *ngIf="graduationtype.touched && !graduationtype.valid">
 					<mat-error *ngIf="graduationtype.errors.required">
 						Field is required.
 					</mat-error>
 				</mat-error>
-
 			</mat-form-field>
 		</td>
 	</tr>
-
 	<tr>
 		<td>
 			<button mat-raised-button type="submit" color="primary" (click) = "userForm.reset()" [disabled]="!userForm.form.valid">Submit</button>
 			<button mat-raised-button type="submit" color="primary" (click) = "userForm.reset()">Reset</button>		
 		</td> 
 	</tr> 
-	 </table>
-	 <!-- <pre> {{ userForm.value | json }}</pre> -->
+	</table>
     </form>
 </div>
