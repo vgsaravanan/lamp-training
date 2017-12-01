@@ -1,12 +1,10 @@
-.button-row {
- font-weight: bold;
- font-size: 21px;
- border: 0;
- cursor: pointer;
- display: inline-block;
- line-height: 100%;   
-}
-
 .mat-chip-list-stacked {
     width: 50%;
+}
+
+.field-style {
+    width: 100%;
+  }
+.ImageUpload {
+    display:none;
 }

@@ -8,6 +8,7 @@ export class User{
 	bloodGroup: string[] = [];
 	areaOfInterest: interestType[] = [];
 	graduationType: graduationDetail[] = [];
+	image: string;
 	
 	constructor() {
 		// this.areaOfInterest.push();

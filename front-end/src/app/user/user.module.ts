@@ -4,7 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NewuserComponent } from './components/newuser/newuser.component';
 import { UserService } from './service/user.service';
+import { CoreService } from '../core/service/core.service';
 import { HttpModule } from '@angular/http';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { EmailvalidatorDirective } from "./validator/emailvalidator.directive";
+
+import { UserlistComponent } from './components/userlist/userlist.component';
 
 import { MatDatepickerModule,
   MatNativeDateModule,
@@ -14,7 +20,10 @@ import { MatDatepickerModule,
   MatInputModule,
   MatButtonModule,
   MatChipsModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatCardModule,
+  // MatPaginator, 
+  // MatTableDataSource
    } from '@angular/material';
 
 @NgModule({
@@ -32,8 +41,13 @@ import { MatDatepickerModule,
     MatButtonModule,
     MatChipsModule,
     MatTooltipModule,
+    MatCardModule,
+    MatPaginatorModule,
+    MatTableModule
+    // MatPaginator, 
+    // MatTableDataSource
   ],
-  declarations: [NewuserComponent],
-  providers:[UserService]
+  declarations: [NewuserComponent, UserlistComponent, EmailvalidatorDirective],
+  providers:[UserService, CoreService ]
 })
 export class UserModule { }

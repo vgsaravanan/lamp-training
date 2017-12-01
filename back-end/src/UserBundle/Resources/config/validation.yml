@@ -38,22 +38,26 @@ UserBundle\Entity\UserDetail:
     graduationType:
       - NotBlank: {message: "Please provide your graduation detail"}
     image:
-      - Image:
+      # - Image:
         # allowLandscape: false
         # allowPortrait: false
-          mimeTypesMessage: Please upload a Image
+          # mimeTypesMessage: Please upload a Image
 UserBundle\Entity\UserEmail:
   constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: emailId
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [emailId]
+            message: 'Email {{ value }} is already Exist'
   properties:
     emailId:
       - NotBlank: {message: "Please provide your Email Id"}
       - Email:
-          message: The email "{{ value }}" is not a valid email.
+          message: The email {{ value }} is not valid
 
 UserBundle\Entity\UserContact:
   constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: contactNumber
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: 
+            fields: [contactNumber]
+            message: 'contactNumber {{ value }} is already Exist'
   properties:
     contactNumber:
       - NotBlank: {message: "Please provide your contact number"}

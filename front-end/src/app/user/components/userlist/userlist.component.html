@@ -1,0 +1,45 @@
+<!-- <p>
+  userlist works!
+</p>
+
+<ul>
+	<li *ngFor="let type of user; let i=index ">
+    <span>{{type.first_name}}</span>
+    <span>{{type.last_name}}</span>
+    <span>{{type.image}}</span>
+
+	</li>
+</ul> -->
+
+
+<!-- <mat-table #table [dataSource]="dataSource">
+  <ng-container matColumnDef="firstName">
+      <mat-header-cell *matHeaderCellDef>firstName </mat-header-cell>
+      <mat-cell *matCellDef="let l"> {{l.firstName}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="display"> </mat-header-row>
+  <mat-row *matRowDef="let row; columns: display;"></mat-row>
+</mat-table> -->
+
+<div *ngIf = "pageEvent">
+<ul *ngFor="let type of result; let i=index;" >
+    <li>
+      <span>{{type.firstName}}</span>
+      <span>{{type.lastName}}</span>
+      <span>{{type.image}}</span>
+      {{pageEvent.pageIndex}}
+      {{pageEvent.pageSize}}
+    </li>
+  </ul>
+</div>
+
+<mat-paginator 
+#paginator 
+[length]="length"
+[pageSize]="pageSize" 
+[pageSizeOptions]="pageSizeOptions"
+(page)="pageEvent = $event"
+(click) = "pagination(pageEvent.pageIndex, pageEvent.pageSize)"
+>
+</mat-paginator>

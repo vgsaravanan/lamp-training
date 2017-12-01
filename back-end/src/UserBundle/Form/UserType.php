@@ -125,6 +125,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => UserDetail::class,
+            'csrf_protection' => false,
         ));
     }
 

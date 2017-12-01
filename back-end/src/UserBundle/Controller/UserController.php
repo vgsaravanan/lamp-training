@@ -2,8 +2,10 @@
 
 namespace UserBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\View\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use UserBundle\Entity\UserDetail;
 use UserBundle\Entity\UserEmail;
 use UserBundle\Entity\UserContact;
@@ -14,6 +16,7 @@ use UserBundle\Entity\GraduationType;
 use UserBundle\Form\UserType;
 use UserBundle\Form\UserInterestType;
 use UserBundle\Form\UserGraduationType;
+use UserBundle\API\ApiFileUpload;
 // use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -35,10 +38,11 @@ use Symfony\Component\HttpFoundation\File\File;
 *
 */
 
-class UserController extends Controller
+class UserController extends FOSRestController
 {
     private $limit;
     private $offset;
+
     /**
      * Constructor
      */
@@ -49,18 +53,23 @@ class UserController extends Controller
     }
     
     /**
-    * Function to add new user 
-    * 
-    * @param object $request
-    *
-    * @return {array} 
-    */
+     * Function to add new user 
+     * 
+     * @param object $request
+     *
+     * @return {array} 
+     */
 
     public function newAction(Request $request)
     {   
-        // $data = json_decode($request->getContent(), true);
-        // dump($request->request->get('emailId'));
-        // echo "<pre>"; print_r($request->getContent()); exit();
+        $getData = $request->request->all();
+      
+        if ($request->request->has('image')) {
+            $files = new ApiFileUpload($request->request->get('image'));
+            $getData['image']=  $files;
+        }
+        // dump($getData);
+        // die();
         // $user = $this->get('security.token_storage')->getToken()->getUser();
         // if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
         //     throw $this->createAccessDeniedException();
@@ -71,21 +80,49 @@ class UserController extends Controller
         $newUser->addContactNumber(new UserContact());
         $newUser->addAreaOfInterest(new InterestType());
         $newUser->addGraduationType(new UserGraduation());
-        // $email = new UserEmail();
-        // $data = json_decode($request->getContent(), true);
-        
        
         $form = $this->createForm(UserType::class, $newUser);      
 
         $data = json_decode($request->getContent(), true);
+   
         $form->submit($data);  
         // $form->handleRequest($request);
         // if ($request->isMethod('POST')) {
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            // dump($form->isValid());
+            // dump($this->getErrorMessage($form));
+            // dump($form->getErrors(true, false));
+            // dump((string)$form->getErrors(true));
+            
+            // $errors = array();
+            // $e = $form->getErrors(true, false);
+            // dump((string)$e);
+            // foreach ( $e as $error) {
+            //     // $errors[] = $error->getMessage();
+            // }
             $em = $this->getDoctrine()->getManager();
+            $file = $getData['image'];
+            $fileName = md5(uniqid(mt_rand(), true));
+            $fileName = $fileName.".".$file->guessExtension();
+            $file->move(
+                $this->getParameter('brochures_directory'), 
+                $fileName
+                );
+            $newUser->setImage($fileName);  
             $em->persist($newUser);
             $em->flush();
-            return new JsonResponse($newUser);
+            
+                // return new JsonResponse($response, Response::HTTP_BAD_REQUEST); 
+                // return new Response($e->getMessage());
+          
+            // $response = array(
+            //     "code" => 0,
+            //     "message" => "Registered Successfully",
+            //     "error" => null,
+            //     "result" => null
+            // );
+            return new View("Registered Successfully", Response::HTTP_OK);
+            // return new JsonResponse($response, Response::HTTP_OK);
             // return new JsonResponse([
             //     'errors' => [
             //         'firstName' => 'First name is invalid'
@@ -93,66 +130,18 @@ class UserController extends Controller
             //     'messages' => '',
             //     'status' => 400
             // ]);
+        } else {
+            // $response = array(
+            //     "code" => 1,
+            //     "message" => "validation errors",
+            //     "error" => $error->getMessage();
+            //     );
+            $response = $this->getErrorMessage($form);
+            return new View($response,Response::HTTP_BAD_REQUEST);
         }
+
+
     }
-
-    
-    // public function newAction(Request $request)
-    // {
-    //     $data = $request->getContent();
-
-    //     // $user = $this->get('security.token_storage')->getToken()->getUser();
-    //     // if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-    //     //     throw $this->createAccessDeniedException();
-    //     // }
-    //     // $session = $request->getSession();
-    //     $newUser = new UserDetail();
-    //     // $newUser->addEmailId(new UserEmail('saravanan.vgs@gmail.com'));
-    //     // $newUser->addContactNumber(new UserContact('7744551144'));
-    //     // $newUser->addInterest(new InterestType('1'));
-    //     // $newUser->addGraduationType(new UserGraduation('2'));
-
-    //     $form = $this->createFormBuilder($newUser)->getForm();
-    //     $form->handleRequest($request);
-    //     $newUser = $form->getData();
-    
-    //     if ($form->isSubmitted()) {
-    //         $newUser = $form->getData();
-    //         dump($newUser);
-    //         die();
-              
-    //         // $file = $newUser->getImage();
-            
-    //         // $fileName = md5(uniqid(mt_rand(), true));
-    //         // $fileName = $fileName.".".$file->guessExtension();
-    //         // $file->move(
-    //         //     $this->getParameter('brochures_directory'), 
-    //         //     $fileName
-    //         //     );
-    //         // $newUser->setImage($fileName);  
-
-    //         /*$newUser->setImage(
-    //             new File($this->getParameter("brochures_directory").$newUser->getImage())
-    //         ); */
-
-    //         $em = $this->getDoctrine()->getManager();
-    //         $em->persist($newUser);
-    //         $em->flush();
-    //         $this->addFlash(
-    //             'success',
-    //             'New User Added Successfully!'
-    //             );
-    //         return $this->redirectToRoute('new_user');
-    //     }
-    //     $newUser = $form->getData();
-    //     dump($newUser);
-    //     die();
-    //         // $view = $this->view($newUser, Response::HTTP_INTERNAL_SERVER_ERROR);
-    //         // return $view;
-    //     // return $this->render('UserBundle:Default:new.html.twig',array('form' => $form->createView(),
-    //     //     ));
-     
-    // }
 
     /**
     * Function to list all user
@@ -167,20 +156,25 @@ class UserController extends Controller
         //     throw $this->createAccessDeniedException();
         // }
         $entityManager = $this->getDoctrine()->getManager();
-        $repository = $entityManager->getRepository("UserBundle:UserDetail");
-        $user = $repository->findAll();
-        $this->limit = $this->container->getParameter('limit');
-        $userlist = $repository->findBy(
-            array(),
-            array(),
-            $this->limit,
-            $this->offset
-            );
-        $total_page = ceil(count($user)/$this->limit);
-        return $this->render('UserBundle:Default:listuser.html.twig', array('max' => $total_page,
-            "results"=>$userlist, 
-            "current" => 1
-            ));
+        // $repository = $entityManager->getRepository("UserBundle:UserDetail");
+        
+        // $em = $this->getEntityManager();
+        $query = $entityManager->createQuery("select u.firstName, u.lastName, u.image , u.dateOfBirth from UserBundle\Entity\UserDetail u");
+        $user = $query->getResult();
+        // $this->limit = $this->container->getParameter('limit');
+        // $userlist = $repository->findBy(
+        //     array(),
+        //     array(),
+        //     $this->limit,
+        //     $this->offset
+        //     );
+        // $total_page = ceil(count($user)/$this->limit);
+
+        return $user;
+        // return $this->render('UserBundle:Default:listuser.html.twig', array('max' => $total_page,
+        //     "results"=>$userlist, 
+        //     "current" => 1
+        //     ));
     }
 
     /**
@@ -281,4 +275,18 @@ class UserController extends Controller
             'form'=> $form->createView(),
             ));
     }   
+
+    /*
+    *
+    *
+    */
+    public function getErrorMessage(\Symfony\Component\Form\Form $form) 
+    {
+        //   $response =  array();
+        foreach ($form->getErrors(true) as $error) {
+            $response['message'] = $error->getMessage();
+        break;
+        }
+        return $response;
+    }
 }

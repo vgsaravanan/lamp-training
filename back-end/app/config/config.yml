@@ -21,7 +21,7 @@ framework:
         strict_requirements: ~
     form: ~
     csrf_protection: ~
-    validation: { enable_annotations: true }
+    validation: { enabled: true }
         # enabled: true
         # enable_annotations: false
          # { enable_annotations: false }
@@ -102,6 +102,7 @@ nelmio_cors:
             # hosts: ['^api\.']
 
 fos_rest:
+    disable_csrf_role:    null
     body_listener: true
     format_listener:
         rules:
@@ -111,5 +112,9 @@ fos_rest:
         view_response_listener: 'force'
         formats:
             json: true
+        templating_formats:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
 
-# nelmio_api_doc: ~
+nelmio_api_doc: ~

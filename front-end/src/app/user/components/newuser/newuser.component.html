@@ -13,23 +13,37 @@
 <!-- *ngFor="let user of users" -->
 
 <div class="container">
-    <h1>NEW USER</h1>
+	<h1>NEW USER</h1>
+	<div *ngIf="errorMessage">
+		<span> {{ errorMessage }}</span>
+	</div>
     <form class="example-form" name="user" #userForm="ngForm" (ngSubmit)="onSubmit()">
-    <table class="example-full-width" cellspacing="0" align="center" > 
+    <table class="field-style" cellspacing="0" align="center" > 
+	
 	<tr>
 		<td>
-			<mat-form-field class="example-full-width">
-				<input
-				type = "file" 
-				matInput 
-				placeholder="First Name"
-				required>
-			</mat-form-field>
+			<!-- <img mat-card-image [src]="image" alt="profile Picture"> -->
+			<!-- <mat-card> -->
+				<!-- <mat-card-actions>
+					<button mat-raised-button color="primary" (click) = "getImage(user.image)" >
+					<label for='selectImage'> Select Image </label>
+					</button>
+				</mat-card-actions>
+				<input mat-raised-button color="primary" 
+				type= 'file'
+				[hidden]="true" 
+				[(ngModel)] = "user.image" 
+				(click) = "getImage(user.image)"
+				name='image' 
+				#image> -->
+			<!-- </mat-card> -->
+			<!-- <img [src]="" alt="profile Picture" width="25%" height="5%">  -->
+			<label>Upload Image <input type="file" accept="image/*" name="image" class="ImageUpload" (change)="getImage($event)"></label>
 		</td>
-	</tr>
-    <tr>
+	</tr>	
+	<tr>
     	<td>
-    		<mat-form-field class="example-full-width">
+    		<mat-form-field class="field-style">
     			<input matInput 
 				placeholder="First Name"
 				name="firstName"
@@ -54,7 +68,7 @@
 	</tr>
 	<tr>
     	<td>
-			<mat-form-field class="example-full-width">
+			<mat-form-field class="field-style">
 				<input matInput 
 				placeholder="Last Name"
 				name="lastName"
@@ -80,7 +94,7 @@
 
     <tr>
     	<td>
-    		<mat-form-field class="example-full-width">
+    		<mat-form-field class="field-style">
 			  <input 
 			  matInput
 			  [matDatepicker] = 'picker'
@@ -120,52 +134,55 @@
 			</mat-error>
  		</td>
 	 </tr>
-
 	 <tr>
-		 <td>
-			<mat-form-field class="example-full-width">
-				<mat-chip-list 
-				class="mat-chip-list-stacked"
-				aria-orientation="vertical"
-				#chipList 
-				[(ngModel)] = "user.emailId"
-				name="emailId"
-				#emailId>
-				<mat-chip *ngFor="let email of user.emailId; let i = index; trackBy:trackByIndex;" 
-				[selectable]="selectable"
-				[removable]="removable" 
-				(remove)="removeEmailId(email)">
-					{{ user.emailId[i].emailId}}
-				<mat-icon matChipRemove *ngIf="removable"> x </mat-icon>
-				</mat-chip>
-				<input 
-				placeholder="Email-ID"
-				type="email"
-				pattern="^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
-				[matChipInputFor]="chipList"
-				[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-				[matChipInputAddOnBlur]="addOnBlur"
-				(matChipInputTokenEnd)="add($event)" 
-				/>
-				<mat-error *ngIf="emailId.touched && !emailId.valid">
-					<mat-error *ngIf="emailId.errors.required">
-						emailid is required.
-					</mat-error>
-					<mat-error *ngIf="emailId.errors.pattern"> 
-						Invalid Email.
-					</mat-error>
+		<td>
+		<mat-form-field class="field-style">
+			<input 
+			placeholder="Email-ID"
+			#emailId
+			[matChipInputFor]="chipList"
+			[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+			[matChipInputAddOnBlur]="addOnBlur"
+			(matChipInputTokenEnd)="add($event)" 
+			/>
+			<mat-error *ngIf="emailId.touched && !emailId.valid">
+				<!-- {{ emailId.errors.pattern | json}} -->
+				<mat-error *ngIf="emailId.errors.required">
+					emailid is required.
 				</mat-error>
-				</mat-chip-list>
-				<mat-hint align="start">
-						Multiple Email Can be provided 
-				</mat-hint>
-			</mat-form-field>
-		 </td>
+				<mat-error *ngIf="emailId.errors.pattern"> 
+					Invalid Email.
+				</mat-error>
+			</mat-error>
+			<mat-chip-list 
+			class="mat-chip-list-stacked"
+			aria-orientation="vertical"
+			[(ngModel)] = "user.emailId"
+			name="emailId"
+			ngControl = "emailId"
+			pattern="[a-z@]"
+			#chipList 
+			>
+			<mat-chip *ngFor="let email of user.emailId; let i = index; trackBy:trackByIndex;" 
+			[selectable]="selectable"
+			[removable]="removable" 
+			(remove)="removeEmailId(email)">
+				{{ user.emailId[i].emailId}}
+			<mat-icon matChipRemove *ngIf="removable"> x </mat-icon>
+			</mat-chip>
+
+			</mat-chip-list>
+					
+			<mat-hint align="start">
+					Multiple Email Can be provided 
+			</mat-hint>
+		</mat-form-field>
+		</td>
 	 </tr>
 
  	<tr>
  		<td>
-			<mat-form-field class="example-full-width">
+			<mat-form-field class="field-style">
 				<mat-chip-list 
 				class="mat-chip-list-stacked"
 				aria-orientation="vertical"
@@ -209,7 +226,7 @@
 	 
 	<tr>
 		<td>
-			<mat-form-field class="example-full-width">
+			<mat-form-field class="field-style">
 				<mat-select 
 				placeholder="Blood Group" 
 				[(ngModel)]="user.bloodGroup" 
@@ -234,7 +251,7 @@
 	</tr>
 	<tr>
 		<td>
-			<mat-form-field class="example-full-width">
+			<mat-form-field class="field-style">
 			    <mat-select placeholder="Area of Interest" 
 			   [(ngModel)]="user.areaOfInterest" 
 		        name="interest" 
@@ -259,7 +276,7 @@
 
 	<tr>
 		<td>
-			<mat-form-field class="example-full-width">
+			<mat-form-field class="field-style">
 				<mat-select 
 				placeholder="Graduation" 
 			    [(ngModel)]="user.graduationType" 
@@ -281,10 +298,11 @@
 	</tr>
 	<tr>
 		<td>
-			<button mat-raised-button type="submit" color="primary" (click) = "userForm.reset()" [disabled]="!userForm.form.valid">Submit</button>
+			<button mat-raised-button type="submit" color="primary" (click) = "onSubmit()"  [disabled]="!userForm.form.valid">Submit</button>
 			<button mat-raised-button type="submit" color="primary" (click) = "userForm.reset()">Reset</button>		
 		</td> 
 	</tr> 
 	</table>
+	<!-- <pre>{{ userForm.value | json }}</pre> -->
     </form>
 </div>
