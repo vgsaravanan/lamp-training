@@ -38,9 +38,11 @@ export class UserService {
   //   return this.http.get(this.userUrl).map((response)=> response.json());
   // }
 
-  getUser(): Observable<string[]>{
-    return this.http.get("http://127.0.0.1:8000/user/")
-      .map((response) => response.json())
+  getUser(data): Observable<User[]>{
+    let link = "http://127.0.0.1:8000/user/display/" + data.page;
+    return this.http.post(link, JSON.stringify(data), this.options)
+    .map(response=> response.json()) 
+    .catch(this.handleError);
   }
   
   public handleError(error: Response | any) {

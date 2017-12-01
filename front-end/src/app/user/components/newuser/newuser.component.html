@@ -14,10 +14,19 @@
 
 <div class="container">
 	<h1>NEW USER</h1>
-	<div *ngIf="errorMessage">
-		<span> {{ errorMessage }}</span>
+	<div class="message">
+		<div *ngIf="successMessage">
+			<small class="is_success">
+					{{ successMessage }}
+			</small>
+		</div>
+		<div *ngIf="errorMessage">
+			<small class="is_error">
+					{{ errorMessage.message }}
+			</small>
+		</div>
 	</div>
-    <form class="example-form" name="user" #userForm="ngForm" (ngSubmit)="onSubmit()">
+		<form class="example-form" name="user" #userForm="ngForm" (ngSubmit)="onSubmit()">
     <table class="field-style" cellspacing="0" align="center" > 
 	
 	<tr>

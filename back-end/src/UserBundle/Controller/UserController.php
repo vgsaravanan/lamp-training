@@ -186,15 +186,18 @@ class UserController extends FOSRestController
     */
     public function displayAction(Request $request)
     {
+
         $page = $request->get('page');
+        // $limit = $request->get
         // dump($page);
         $entityManager = $this->getDoctrine()->getManager();
         $repository = $entityManager->getRepository("UserBundle:UserDetail");
         $this->limit = $this->container->getParameter('limit');
         $this->offset = ($page-1)*$this->limit;
         $userlist = $repository->findBy(array(),array(), $this->limit, $this->offset);
-
-        return $this->render('UserBundle:Default:displayType.html.twig', array('results' => $userlist, "current"=> $page));
+        
+        return new View($userlist,Response::HTTP_OK);
+        // return $this->render('UserBundle:Default:displayType.html.twig', array('results' => $userlist, "current"=> $page));
     }
 
     /**

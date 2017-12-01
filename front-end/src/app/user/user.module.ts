@@ -8,8 +8,6 @@ import { CoreService } from '../core/service/core.service';
 import { HttpModule } from '@angular/http';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { EmailvalidatorDirective } from "./validator/emailvalidator.directive";
-
 import { UserlistComponent } from './components/userlist/userlist.component';
 
 import { MatDatepickerModule,
@@ -47,7 +45,7 @@ import { MatDatepickerModule,
     // MatPaginator, 
     // MatTableDataSource
   ],
-  declarations: [NewuserComponent, UserlistComponent, EmailvalidatorDirective],
+  declarations: [NewuserComponent, UserlistComponent],
   providers:[UserService, CoreService ]
 })
 export class UserModule { }

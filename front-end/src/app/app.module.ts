@@ -19,21 +19,15 @@ import { UserModule } from './user/user.module';
 import { NewuserComponent } from './user/components/newuser/newuser.component';
 import { UserlistComponent } from './user/components/userlist/userlist.component';
 import { AppComponent } from './app.component';
-// import { NewUserComponent } from './usercomponents/new-user/new-user.component';
-// import { NewUserService } from './usercomponents/new-user/new-user.service';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
-    // EmailValidatorDirective,
-    // NewUserComponent,
   ],
   imports: [
     BrowserModule,

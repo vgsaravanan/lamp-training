@@ -8,3 +8,19 @@
 .ImageUpload {
     display:none;
 }
+
+.is_success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.is_error {
+    color: #D8000C;
+    background-color: #FFD2D2;
+}
+.message, .is_success,.is_error {
+    padding:12px;
+    margin:10px 22px;
+    font-size:1em;
+    vertical-align:middle;
+    /* border-radius: 3px 3px 3px 3px; */
+}

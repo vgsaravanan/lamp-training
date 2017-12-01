@@ -32,7 +32,8 @@ export class NewuserComponent implements OnInit {
   removable: boolean = true;
   addOnBlur: boolean = true;
   separatorKeysCodes = [ENTER, COMMA];
-  errorMessage: string = '';
+  errorMessage:any;
+  successMessage: any;
   submitted: boolean = false;
 
   loaded: boolean =false;
@@ -46,6 +47,7 @@ export class NewuserComponent implements OnInit {
   selectGraduation(x) {
     this.selectedGraduation.push(x);
   }
+  
   // validate(event: MatChipInputEvent) :void {
   //   let input = event.input;
   //   let value = event.value;
@@ -54,6 +56,7 @@ export class NewuserComponent implements OnInit {
   //     return control.value < 1 || valid ? null : {'isEmail': true};
   //   }
   // }
+
   add(event: MatChipInputEvent): void {
     let input = event.input;
     let value = event.value;
@@ -130,7 +133,6 @@ export class NewuserComponent implements OnInit {
         //   value      : reader.result.split(',')[1]
         // }
       }
-      console.log(this.user.image);
     } 
 
   }
@@ -163,18 +165,15 @@ export class NewuserComponent implements OnInit {
     // this.getResponse();
 
    this.service.addUser(this.user as User).subscribe(
-     data =>{ 
-       console.log('hiiii');
+      success =>{ 
+        this.successMessage = <any>success;
       },
       error => {
-        this.errorMessage = <any>error;
-        // console.log('helkhjkjhkj');
-        // return Observable.throw(error);
+        this.errorMessage = <any>error._body;
+        this.errorMessage = JSON.parse(this.errorMessage);
+        // this.errorMessage = this.errorMessage._body;
+        // console.log(this.errorMessage._body);
       }
-      // response=> {
-      //    this.response =response;
-      //    console.log(this.response);
-      //  }
       );
   }
 
@@ -213,7 +212,7 @@ export class NewuserComponent implements OnInit {
         this.interestType = interestType;
       }
     )
-  }
+  }Response 
 
   getGraduationType(): void {
     this.coreServie.getGraduationType().subscribe(

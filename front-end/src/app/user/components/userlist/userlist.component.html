@@ -22,18 +22,59 @@
   <mat-row *matRowDef="let row; columns: display;"></mat-row>
 </mat-table> -->
 
-<div *ngIf = "pageEvent">
-<ul *ngFor="let type of result; let i=index;" >
+ <div *ngIf = "!pageEvent">
+  <ul *ngFor="let type of result; let i=index;" >
     <li>
-      <span>{{type.firstName}}</span>
-      <span>{{type.lastName}}</span>
-      <span>{{type.image}}</span>
-      {{pageEvent.pageIndex}}
-      {{pageEvent.pageSize}}
+        <mat-card class = "display_list"> 
+            <mat-card-header>
+                <mat-card-title><b>{{type.firstName}} {{type.lastName}}</b> </mat-card-title>
+            </mat-card-header>
+            <img mat-card-image src="icon175x175.png" alt="Profile Picture">
+            <mat-card-actions>
+                <button mat-button>View</button>
+                <button mat-button>Edit</button>
+            </mat-card-actions>
+        </mat-card>
     </li>
   </ul>
-</div>
+  </div> 
+  
 
+
+  <div *ngIf = "pageEvent">
+    <ul *ngFor="let type of result; let i=index;" >
+      <li>
+          <mat-card class = "display_list"> 
+              <mat-card-header>
+                  <mat-card-title><b>{{type.firstName}} {{type.lastName}}</b> </mat-card-title>
+              </mat-card-header>
+              <img mat-card-image src="Facebook_head.png" alt="Profile Picture">
+              <mat-card-actions>
+                  <button mat-button>View</button>
+                  <button mat-button>Edit</button>
+              </mat-card-actions>
+          </mat-card>
+      </li>
+    </ul>
+  </div>
+
+  <!-- <ng-template #firstpage>
+    <ul *ngFor="let type of result; let i=index;" >
+      <li>
+          <mat-card class = "display_list"> 
+              <mat-card-header>
+                  <mat-card-title><b>{{type.firstName}} {{type.lastName}}</b> </mat-card-title>
+              </mat-card-header>
+              <img mat-card-image src="Facebook_head.png" alt="Profile Picture">
+              <mat-card-actions>
+                  <button mat-button>View</button>
+                  <button mat-button>Edit</button>
+              </mat-card-actions>
+          </mat-card>
+      </li>
+    </ul>
+  </ng-template> -->
+      
 <mat-paginator 
 #paginator 
 [length]="length"
